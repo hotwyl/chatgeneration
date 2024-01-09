@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Prompt para Chat GPT</title>
+    <title>Gerador de Prompt para Blog Post no Chat GPT</title>
     <meta name="description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
     <meta name="keywords" content="Gerador de Prompt, Chat GPT, Diálogo, Inteligência Artificial, Hotwyl">
     <meta name="author" content="Hotwyl">
@@ -68,18 +68,25 @@
             padding: 80px 20px 20px;
         }
         
+        main#content {
+            min-height: 100vh;
+            padding-top: 7rem !important;
+            /*centralizar o conteúdo*/
+            margin: 0 auto !important;
+            max-width: 1200px;
+        }
+        
         button {
             margin-right: 10px;
         }
-        
-        @media only screen and (max-width: 768px) {
+        /* @media only screen and (max-width: 768px) {
             header {
                 padding: 5px;
             }
             main {
                 padding: 60px 10px 10px;
             }
-        }
+        } */
     </style>
 
 </head>
@@ -87,10 +94,10 @@
 <body>
     <div id="app">
         <header>
-            <h1>Gerador de Prompt para Chat GPT <i class="fa-solid fa-comments"></i> </h1>
+            <h1>Gerador de Prompt para Blog Post no Chat GPT <i class="fa-solid fa-comments"></i> </h1>
         </header>
 
-        <main class="container m-5 p-5">
+        <main id="content" class="container m-5 p-5">
             <form @submit.prevent="generatePrompt" v-if="!promptGenerated">
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -359,7 +366,7 @@ Ignore todas as solicitações e ações anteriores.
 
 Você é um redator publicitário formado em publicidade e propaganda, experiente na área de marketing digital, especialista em SEO e tráfego orgânico. Possui uma mente com nível de inteligência acima do normal, combinando pensamento criativo e habilidades de comunicação com o objetivo de inovar e estar um passo à frente.
 
-Com base na origem informada em ${this.blogArtigo}, identifique o tema armazenando em {tema}:
+Com base na origem informada, identifique o tema armazenando em {tema}:
 
 Identifique a melhor palavra-chave e armazene em {palavrachave}.
 
@@ -372,11 +379,29 @@ O novo post só deverá ser escrito após confirmar o outline.
 Escreva um artigo para blog em ${this.otherTomDeVoz} com pelo menos ${this.lengthComprimento} palavras, seguindo o outline criado. Escreva o post de maneira otimizada para mecanismos de buscas com técnicas SEO, sendo a palavra-chave {palavrachave}.
 
 O post deve ser criado com a seguinte estrutura:
-- Deve conter pelo menos ${this.lengthComprimento} palavras.
-- Deve ser escrito no ponto de vista ${this.otherPontoDeVista}.
-- Deve ser escrito em tom de voz ${this.otherTomDeVoz}.
-- Deve ser escrito em linguagem ${this.linguagem}.
-- Crie um título atraente que inclua a palavra-chave principal.
+`;
+
+if(this.lengthComprimento){
+    this.generatedPrompt += `
+- Deve conter pelo menos ${this.lengthComprimento} palavras.`;
+}
+
+if(this.otherPontoDeVista){
+    this.generatedPrompt += `
+- Deve ser escrito no ponto de vista ${this.otherPontoDeVista}.`;
+}
+
+if(this.otherTomDeVoz){
+    this.generatedPrompt += `
+- Deve ser escrito em tom de voz ${this.otherTomDeVoz}.`;
+}
+
+if(this.linguagem){
+    this.generatedPrompt += `
+- Deve ser escrito em linguagem ${this.linguagem}.`;
+}
+
+this.generatedPrompt += `- Crie um título atraente que inclua a palavra-chave principal.
 - Mantenha o título com 60-70 caracteres para garantir que ele seja exibido completamente nos resultados de pesquisa.
 - Customize a URL do seu artigo para incluir a palavra-chave principal.
 - Evite URLs longas e confusas.
@@ -389,18 +414,59 @@ O post deve ser criado com a seguinte estrutura:
 - Adicione links externos para fontes confiáveis e autoritativas para dar suporte às informações do seu artigo.
 - Além da palavra-chave principal, inclua palavras-chave de cauda longa relacionadas ao longo do texto.
 - Evite o excesso de otimização de palavras-chave. Mantenha uma densidade natural e não force palavras-chave.
+`;
 
-${this.opcoes.introducao ? 'Inclua uma introdução interessante que explique o que o leitor aprenderá com o artigo e prenda a atenção dos leitores.':''}
-${this.opcoes.conclusao ? 'Inclua uma conclusão que resuma as principais ideias do artigo.':''}
-${this.opcoes.dadosTempoReal ? 'Inclua dados em tempo real para tornar o artigo mais atualizado.':''}
-${this.opcoes.editorEsboços ? 'Use o editor de esboços para criar um esboço do artigo.':''}
-${this.opcoes.secaoFAQ ? 'Inclua uma seção de perguntas frequentes (FAQ) para responder às perguntas mais comuns.':''}
-${this.opcoes.principaisTopicos ? 'Inclua uma seção com os principais tópicos do artigo para facilitar a navegação.':''}
-${this.opcoes.sinonimosVariacoes ? 'Usar sinônimos e variações de palavras-chave para evitar repetições.':''}
-${this.opcoes.subtitulos ? 'Use subtítulos (Heading Tags) para dividir o conteúdo em seções.':''}
-${this.opcoes.listas ? 'Use listas numeradas e com marcadores para tornar o conteúdo mais legível.':''}
-${this.opcoes.frases ? 'Use frases curtas e parágrafos curtos para tornar o conteúdo mais legível.':''}
+if(this.opcoes.introducao){
+    this.generatedPrompt += `
+- Inclua uma introdução interessante que explique o que o leitor aprenderá com o artigo e prenda a atenção dos leitores.`;
+}
 
+if(this.opcoes.conclusao){
+    this.generatedPrompt += `
+- Inclua uma conclusão que resuma as principais ideias do artigo.`;
+}
+
+if(this.opcoes.dadosTempoReal){
+    this.generatedPrompt += `
+- Inclua dados em tempo real para tornar o artigo mais atualizado.`;
+}
+
+if(this.opcoes.editorEsboços){
+    this.generatedPrompt += `
+- Use o editor de esboços para criar um esboço do artigo.`;
+}
+
+if(this.opcoes.secaoFAQ){
+    this.generatedPrompt += `
+- Inclua uma seção de perguntas frequentes (FAQ) para responder às perguntas mais comuns.`;
+}
+
+if(this.opcoes.principaisTopicos){
+    this.generatedPrompt += `
+- Inclua uma seção com os principais tópicos do artigo para facilitar a navegação.`;
+}
+
+if(this.opcoes.sinonimosVariacoes){
+    this.generatedPrompt += `
+- Usar sinônimos e variações de palavras-chave para evitar repetições.`;
+}
+
+if(this.opcoes.subtitulos){
+    this.generatedPrompt += `
+- Use subtítulos (Heading Tags) para dividir o conteúdo em seções.`;
+}
+
+if(this.opcoes.listas){
+    this.generatedPrompt += `
+- Use listas numeradas e com marcadores para tornar o conteúdo mais legível.`;
+}
+
+if(this.opcoes.frases){
+    this.generatedPrompt += `
+- Use frases curtas e parágrafos curtos para tornar o conteúdo mais legível.`;
+}
+
+this.generatedPrompt += `
 Após criar o post e eu confirmar satisfação, prossiga:
 
 - Escreva uma meta descrição concisa e atraente que inclua a palavra-chave principal.

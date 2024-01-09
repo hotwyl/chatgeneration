@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Prompt para Chat GPT</title>
+    <meta name="description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta name="keywords" content="Gerador de Prompt, Chat GPT, Diálogo, Inteligência Artificial, Hotwyl">
+    <meta name="author" content="Hotwyl">
+    <!-- Outras meta tags importantes para SEO -->
+    <meta name="robots" content="index, follow">
+    <!-- Instruções para os motores de busca -->
+    <link rel="canonical" href="URL_CANONICA">
+    <!-- URL canônica para evitar conteúdo duplicado -->
+    <meta name="image" content="URL_DA_IMAGEM">
+    <!-- URL de uma imagem representativa -->
+    <!-- Outras meta tags específicas do OpenGraph para redes sociais -->
+    <meta property="og:title" content="Gerador de Prompt para Chat GPT por Hotwyl">
+    <meta property="og:description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta property="og:image" content="URL_DA_IMAGEM_PARA_OPENGRAPH">
+    <meta property="og:url" content="URL_DA_PAGINA">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@hotwyl">
+    <meta name="twitter:title" content="Gerador de Prompt para Chat GPT por Hotwyl">
+    <meta name="twitter:description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta name="twitter:image" content="URL_DA_IMAGEM_PARA_TWITTER">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="URL_DO_FAVICON" type="image/x-icon">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        main {
+            padding: 80px 20px 20px;
+        }
+        
+        button {
+            margin-right: 10px;
+        }
+        
+        @media only screen and (max-width: 768px) {
+            header {
+                padding: 5px;
+            }
+            main {
+                padding: 60px 10px 10px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1>Gerador de Prompt para Chat GPT <i class="fa-solid fa-comments"></i> </h1>
+        </header>
+
+        <main class="container m-5 p-5">
+            <form @submit.prevent="generatePrompt" v-if="!promptGenerated">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="tipo" class="form-label">Selecione o Tipo:</label>
+                        <select class="form-select" id="tipo" v-model="tipo" required>
+                        <option value="blogArtigo">Blog / Artigo</option>
+                    </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="origem" class="form-label">Qual a origem ou base do conteudo?</label>
+                        <select class="form-select" id="tipo" v-model="origem" required>
+                            <option value="link">Link ou URL</option>
+                            <option value="tema">Tema ou Assunto</option>
+                            <option value="artigo">Artigo ou Post</option>
+                            <option value="palavraChave">Palavra-chave Alvo</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3" v-if="tipo === 'blogArtigo' && origem !== ''">
+                        <label for="descrição" class="form-label">Informe {{origem}} Desejado:</label>
+                        <input type="text" class="form-control" id="descrição" v-model="desejado" required>
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+                        <label for="comprimento" class="form-label">Comprimento do Artigo:</label>
+                        <select class="form-select" id="comprimento" v-model="comprimento" required>
+                        <option value="curto">Mais Curto (2-3 Seções, 450-900 Palavras)</option>
+                        <option value="curta">Curta (3-5 Seções, 950-1350 Palavras)</option>
+                        <option value="medio">Médio (5-7 Seções, 1350-1870 Palavras)</option>
+                        <option value="longa">Forma Longa (7-10 Seções, 1900-2440 Palavras)</option>
+                        <option value="maislongo">Mais Longo (10-12 Seções, 2350-2940 Palavras)</option>
+                    </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="tomDeVoz" class="form-label">Tom de Voz:</label>
+                        <select class="form-select" id="tomDeVoz" v-model="tomDeVoz" required>
+                        <option value="seoOtimizado">SEO Otimizado (Confidente, Conhecedor, Neutro e Claro)</option>
+                        <option value="animado">Animado</option>
+                        <option value="profissional">Profissional</option>
+                        <option value="amigavel">Amigável</option>
+                        <option value="formal">Formal</option>
+                        <option value="casual">Casual</option>
+                        <option value="humoroso">Humoroso</option>
+                    </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="pontoDeVista" class="form-label">Ponto de Vista:</label>
+                        <select class="form-select" id="pontoDeVista" v-model="pontoDeVista" required>
+                            <option value="primeiraPessoaSingular">Primeira Pessoa Singular (Eu, eu, meu, meu)</option>
+                            <option value="primeiraPessoaPlural">Primeira Pessoa Plural (nós, nós, nosso, nosso)</option>
+                            <option value="segundaPessoa">Segunda Pessoa (você, seu, seu)</option>
+                            <option value="terceiraPessoa">Terceira Pessoa (ele, ela, eles)</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="linguagem" class="form-label">Linguagem:</label>
+                        <select class="form-select" id="linguagem" v-model="linguagem" required>
+                            <option value="informal">Informal</option>
+                            <option value="formal">Formal</option>
+                            <option value="giria">Giria</option>
+                            <option value="tecnica">Tecnica</option>
+                            <option value="academica">Academica</option>
+                            <option value="popular">Popular</option>
+                            <option value="coloquial">Coloquial</option>
+                            <option value="padrao">Padrao</option>
+                            <option value="neutra">Neutra</option>
+                            <option value="pessoal">Pessoal</option>
+                            <option value="impessoal">Impessoal</option>
+                            <option value="figurada">Figurada</option>
+                            <option value="denotativa">Denotativa</option>
+                            <option value="conotativa">Conotativa</option>
+                            <option value="direta">Direta</option>
+                            <option value="indireta">Indireta</option>
+                            <option value="objetiva">Objetiva</option>
+                            <option value="subjetiva">Subjetiva</option>
+                            <option value="positiva">Positiva</option>
+                            <option value="negativa">Negativa</option>
+                            <option value="ativa">Ativa</option>
+                            <option value="passiva">Passiva</option>
+                            <option value="coloquial">Coloquial</option>
+                            <option value="culto">Culto</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="idioma" class="form-label">Idioma:</label>
+                        <select class="form-select" id="idioma" v-model="idioma" required>
+                            <option value="portugues">Português</option>
+                            <option value="ingles">Inglês</option>
+                            <option value="espanhol">Espanhol</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <center class="my-3"><span class="text-muted">Opções Adicionais:</label></center>
+                    <div class="row">
+                        <!-- Inclua uma introdução interessante que explique o que o leitor aprenderá com o artigo e prenda a atenção dos leitores. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="introducao" v-model="opcoes.introducao">
+                            <label class="form-check-label" for="introducao">Incluir Introdução</label>
+                        </div>
+                        <!-- Inclua uma conclusão que resuma as principais ideias do artigo. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="conclusao" v-model="opcoes.conclusao">
+                            <label class="form-check-label" for="conclusao">Incluir Conclusão</label>
+                        </div>
+                        <!-- Inclua dados em tempo real para tornar o artigo mais atualizado. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="dadosTempoReal" v-model="opcoes.dadosTempoReal">
+                            <label class="form-check-label" for="dadosTempoReal">Use Dados em Tempo Real</label>
+                        </div>
+                        <!-- Use o editor de esboços para criar um esboço do artigo. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="editorEsboços" v-model="opcoes.editorEsboços">
+                            <label class="form-check-label" for="editorEsboços">Usar o Editor de Esboços</label>
+                        </div>
+                        <!-- Inclua uma seção de perguntas frequentes (FAQ) para responder às perguntas mais comuns. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="secaoFAQ" v-model="opcoes.secaoFAQ">
+                            <label class="form-check-label" for="secaoFAQ">Incluir Seção FAQ</label>
+                        </div>
+                        <!-- Inclua uma seção com os principais tópicos do artigo para facilitar a navegação. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="principaisTopicos" v-model="opcoes.principaisTopicos">
+                            <label class="form-check-label" for="principaisTopicos">Inclua as Principais Tópicos</label>
+                        </div>
+                        <!-- Usar sinônimos e variações de palavras-chave. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="sinonimosVariacoes" v-model="opcoes.sinonimosVariacoes">
+                            <label class="form-check-label" for="sinonimosVariacoes">Usar Sinônimos e Variações</label>
+                        </div>
+                        <!-- Use subtítulos (Heading Tags) para dividir o conteúdo em seções. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="subtitulos" v-model="opcoes.subtitulos">
+                            <label class="form-check-label" for="subtitulos">Usar Subtítulos</label>
+                        </div>
+                        <!-- Use listas numeradas e com marcadores para tornar o conteúdo mais legível. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="listas" v-model="opcoes.listas">
+                            <label class="form-check-label" for="listas">Usar Listas e Marcadores</label>
+                        </div>
+                        <!-- Use frases curtas e parágrafos curtos para tornar o conteúdo mais legível. -->
+                        <div class="col-md-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="frases" v-model="opcoes.frases">
+                            <label class="form-check-label" for="frases">Usar Frases Curtas e Parágrafos Curtos</label>
+                        </div>
+                    </div>
+                </div>
+
+                <center class="mt-5 d-flex justify-content-evenly">
+                    <button @click="goBack" class="btn btn-secondary px-5"> <i class="fa-solid fa-trash"></i> Limpar </button>
+                    <button type="submit" class="btn btn-primary px-5"> <i class="fa-solid fa-gear"></i> Gerar Prompt</button>
+                </center>
+            </form>
+
+            <div v-if="promptGenerated" class="mt-4">
+                <div class="d-flex justify-content-evenly">
+                    <h4>Preview Prompt Gerado:</h4>
+                    <button @click="copyToClipboard" class="btn btn-success px-5"> <i class="fa-solid fa-rotate"></i> Copiar </button>
+                </div>
+                <div>
+                    <!-- <small readonly>{{ generatedPrompt }}</small> -->
+                    <textarea class="form-control mt-3" rows="15" readonly disabled>{{ generatedPrompt }}</textarea>
+                </div>
+                <div>
+                    <center class="mt-5 d-flex justify-content-evenly">
+                        <button @click="goBack" class="btn btn-danger px-5"> <i class="fa-solid fa-rotate"></i> Voltar </button>
+                        <button @click="copyToClipboard" class="btn btn-primary px-5"> <i class="fa-solid fa-rotate"></i> Copiar </button>
+                    </center>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-8">
+            <p class="text-sm text-gray-500 text-center">Feito com ♥ por hotwyl | Gerador de Prompt para Chat GPT &reg; Todos os direitos reservados | &copy; <a href="#" target="_blank">WILLFROMBRASIL</a>™ Company Inc <span>{{ year }}</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    tipo: '',
+                    origem: '',
+                    desejado: '',
+                    comprimento: '',
+                    tomDeVoz: '',
+                    pontoDeVista: '',
+                    opcoes: {
+                        introducao: false,
+                        conclusao: false,
+                        dadosTempoReal: false,
+                        editorEsboços: false,
+                        secaoFAQ: false,
+                        principaisTopicos: false,
+                        sinonimosVariacoes: false,
+                        subtitulos: false,
+                        listas: false,
+                        frases: false,
+                    },
+                    promptGenerated: false,
+                    generatedPrompt: '',
+                    lengthComprimento: 600,
+                    otherTomDeVoz: 'normal',
+                    otherPontoDeVista: 'normal',
+                    linguagem: '',
+                    idioma: '',
+                    year: new Date().getFullYear(),
+                };
+            },
+            methods: {
+                generatePrompt() {
+                    // identificar o comprimento do artigo
+                    if (this.comprimento === 'curto') {
+                        this.lengthComprimento = 450;
+                    } else if (this.comprimento === 'curta') {
+                        this.lengthComprimento = 950;
+                    } else if (this.comprimento === 'medio') {
+                        this.lengthComprimento = 1350;
+                    } else if (this.comprimento === 'longa') {
+                        this.lengthComprimento = 1900;
+                    } else if (this.comprimento === 'maislongo') {
+                        this.lengthComprimento = 2350;
+                    }
+
+                    // identificar o tom de voz
+                    if (this.tomDeVoz === 'seoOtimizado') {
+                        this.otherTomDeVoz = 'Confidente, Conhecedor, Neutro e Claro';
+                    } else if (this.tomDeVoz === 'animado') {
+                        this.otherTomDeVoz = 'Animado';
+                    } else if (this.tomDeVoz === 'profissional') {
+                        this.otherTomDeVoz = 'Profissional';
+                    } else if (this.tomDeVoz === 'amigavel') {
+                        this.otherTomDeVoz = 'Amigável';
+                    } else if (this.tomDeVoz === 'formal') {
+                        this.otherTomDeVoz = 'Formal';
+                    } else if (this.tomDeVoz === 'casual') {
+                        this.otherTomDeVoz = 'Casual';
+                    } else if (this.tomDeVoz === 'humoroso') {
+                        this.otherTomDeVoz = 'Humoroso';
+                    }
+
+                    // identificar o ponto de vista
+                    if (this.pontoDeVista === 'primeiraPessoaSingular') {
+                        this.otherPontoDeVista = 'Eu, eu, meu, meu';
+                    } else if (this.pontoDeVista === 'primeiraPessoaPlural') {
+                        this.otherPontoDeVista = 'nós, nós, nosso, nosso';
+                    } else if (this.pontoDeVista === 'segundaPessoa') {
+                        this.otherPontoDeVista = 'você, seu, seu';
+                    } else if (this.pontoDeVista === 'terceiraPessoa') {
+                        this.otherPontoDeVista = 'ele, ela, eles';
+                    }
+
+this.generatedPrompt += `
+Ignore todas as solicitações e ações anteriores.
+
+Você é um redator publicitário formado em publicidade e propaganda, experiente na área de marketing digital, especialista em SEO e tráfego orgânico. Possui uma mente com nível de inteligência acima do normal, combinando pensamento criativo e habilidades de comunicação com o objetivo de inovar e estar um passo à frente.
+
+Com base na origem informada em ${this.blogArtigo}, identifique o tema armazenando em {tema}:
+
+Identifique a melhor palavra-chave e armazene em {palavrachave}.
+
+Liste as melhores palavras-chave, tags e categorias para este post.
+
+Crie o outline para escrever um novo artigo para blog em ${this.otherTomDeVoz} sobre {tema}.
+
+O novo post só deverá ser escrito após confirmar o outline.
+
+Escreva um artigo para blog em ${this.otherTomDeVoz} com pelo menos ${this.lengthComprimento} palavras, seguindo o outline criado. Escreva o post de maneira otimizada para mecanismos de buscas com técnicas SEO, sendo a palavra-chave {palavrachave}.
+
+O post deve ser criado com a seguinte estrutura:
+- Deve conter pelo menos ${this.lengthComprimento} palavras.
+- Deve ser escrito no ponto de vista ${this.otherPontoDeVista}.
+- Deve ser escrito em tom de voz ${this.otherTomDeVoz}.
+- Deve ser escrito em linguagem ${this.linguagem}.
+- Crie um título atraente que inclua a palavra-chave principal.
+- Mantenha o título com 60-70 caracteres para garantir que ele seja exibido completamente nos resultados de pesquisa.
+- Customize a URL do seu artigo para incluir a palavra-chave principal.
+- Evite URLs longas e confusas.
+- Use a palavra-chave principal no primeiro parágrafo do seu artigo.
+- Inclua a palavra-chave principal de forma natural na introdução.
+- Inclua outras palavras-chaves nos títulos e subtítulos (Heading Tags).
+- Forneça informações úteis, relevantes e precisas sobre o tópico.
+- Use imagens, vídeos e gráficos relevantes para enriquecer o conteúdo.
+- Inclua links para outras páginas do seu próprio site (linkagem interna) sempre que relevante.
+- Adicione links externos para fontes confiáveis e autoritativas para dar suporte às informações do seu artigo.
+- Além da palavra-chave principal, inclua palavras-chave de cauda longa relacionadas ao longo do texto.
+- Evite o excesso de otimização de palavras-chave. Mantenha uma densidade natural e não force palavras-chave.
+
+${this.opcoes.introducao ? 'Inclua uma introdução interessante que explique o que o leitor aprenderá com o artigo e prenda a atenção dos leitores.':''}
+${this.opcoes.conclusao ? 'Inclua uma conclusão que resuma as principais ideias do artigo.':''}
+${this.opcoes.dadosTempoReal ? 'Inclua dados em tempo real para tornar o artigo mais atualizado.':''}
+${this.opcoes.editorEsboços ? 'Use o editor de esboços para criar um esboço do artigo.':''}
+${this.opcoes.secaoFAQ ? 'Inclua uma seção de perguntas frequentes (FAQ) para responder às perguntas mais comuns.':''}
+${this.opcoes.principaisTopicos ? 'Inclua uma seção com os principais tópicos do artigo para facilitar a navegação.':''}
+${this.opcoes.sinonimosVariacoes ? 'Usar sinônimos e variações de palavras-chave para evitar repetições.':''}
+${this.opcoes.subtitulos ? 'Use subtítulos (Heading Tags) para dividir o conteúdo em seções.':''}
+${this.opcoes.listas ? 'Use listas numeradas e com marcadores para tornar o conteúdo mais legível.':''}
+${this.opcoes.frases ? 'Use frases curtas e parágrafos curtos para tornar o conteúdo mais legível.':''}
+
+Após criar o post e eu confirmar satisfação, prossiga:
+
+- Escreva uma meta descrição concisa e atraente que inclua a palavra-chave principal.
+- Mantenha a meta descrição com cerca de 150-160 caracteres.
+- Liste as melhores palavras-chave, tags e categorias para este post.
+- Crie um resumo do artigo em um parágrafo com até 250 caracteres.
+- Descreva imagens que representem este artigo. Informe os atributos (title, alt, description, legend, url, uri) para tag HTML img da imagem.
+- Gere as configurações de SEO do WordPress para este artigo.
+- Gere as configurações para o plugin Rank Math para este artigo.
+
+Indique as configurações e formatações para publicar este post no WordPress.
+ATENÇÃO:
+
+- Nunca imprima caracteres especiais como <>[]{} nem tags.
+- Por favor, escreva em ${this.idioma}.
+`;
+
+                    this.promptGenerated = true;
+                },
+                copyToClipboard() {
+                    const textarea = document.createElement('textarea');
+                    // Substituir quebras de linha por espaços
+                    const promptWithoutNewlines = this.generatedPrompt.replace(/\n/g, ' ');
+                    textarea.value = promptWithoutNewlines;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    Swal.fire('Conteúdo copiado para a área de transferência!');
+                },
+                goBack() {
+                    this.promptGenerated = false;
+                    // Redirecione ou faça qualquer outra ação ao voltar
+                    location.reload();
+                }
+            },
+            created() {
+                this.year = new Date().getFullYear();
+            },
+            mounted() {
+            },
+            updated() {
+            }
+        });
+        app.mount('#app');
+    </script>
+
+</body>
+
+</html>

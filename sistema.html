@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Prompt para Sistema no Chat GPT</title>
+    <meta name="description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta name="keywords" content="Gerador de Prompt, Chat GPT, Diálogo, Inteligência Artificial, Hotwyl">
+    <meta name="author" content="Hotwyl">
+    <!-- Outras meta tags importantes para SEO -->
+    <meta name="robots" content="index, follow">
+    <!-- Instruções para os motores de busca -->
+    <link rel="canonical" href="URL_CANONICA">
+    <!-- URL canônica para evitar conteúdo duplicado -->
+    <meta name="image" content="URL_DA_IMAGEM">
+    <!-- URL de uma imagem representativa -->
+    <!-- Outras meta tags específicas do OpenGraph para redes sociais -->
+    <meta property="og:title" content="Gerador de Prompt para Chat GPT por Hotwyl">
+    <meta property="og:description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta property="og:image" content="URL_DA_IMAGEM_PARA_OPENGRAPH">
+    <meta property="og:url" content="URL_DA_PAGINA">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@hotwyl">
+    <meta name="twitter:title" content="Gerador de Prompt para Chat GPT por Hotwyl">
+    <meta name="twitter:description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta name="twitter:image" content="URL_DA_IMAGEM_PARA_TWITTER">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="URL_DO_FAVICON" type="image/x-icon">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        main {
+            padding: 80px 20px 20px;
+        }
+        
+        main#content {
+            min-height: 100vh;
+            padding-top: 7rem !important;
+            /*centralizar o conteúdo*/
+            margin: 0 auto !important;
+            max-width: 1200px;
+        }
+        
+        button {
+            margin-right: 10px;
+        }
+        /* @media only screen and (max-width: 768px) {
+            header {
+                padding: 5px;
+            }
+            main {
+                padding: 60px 10px 10px;
+            }
+        } */
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1>Gerador de Prompt para Sistema no Chat GPT <i class="fa-solid fa-comments"></i> </h1>
+        </header>
+
+        <main id="content" class="container m-5 p-5">
+            <form @submit.prevent="generatePrompt" v-if="!promptGenerated">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="descricao" class="form-label">Informe qual sistema deseja desenvolver:</label>
+                        <textarea class="form-control" id="descricao" v-model="descricao" required></textarea>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="persona" class="form-label">Informe Publico Alvo para utilização do sistema</label>
+                        <textarea class="form-control" id="persona" v-model="persona" required></textarea>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="objetivo" class="form-label">Informe o objetivo do sistema</label>
+                        <textarea class="form-control" id="objetivo" v-model="objetivo" required></textarea>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="stack" class="form-label">Qual a Stack de desenvolvimento?</label>
+                        <select class="form-select" id="stack" v-model="stack" required>
+                            <option value="htmlcssjs">Personalizado</option>
+                            <option value="htmlcssjs">HTML + CSS + JS</option>
+                            <option value="htmlcssjs">HTML + CSS + JS + PHP + MYSQL + PDO</option>
+                            <option value="htmlcssjs">HTML + CSS + Vue JS CDN</option>
+                            <option value="htmlcssjs">HTML + CSS + Vue JS CDN + PHP + MYSQL + PDO</option>
+                            <option value="htmlcssjs">Bootstrap + JS</option>
+                            <option value="htmlcssjs">Bootstrap + JS + PHP + MYSQL + PDO</option>
+                            <option value="htmlcssjs">Bootstrap + Vue JS CDN</option>
+                            <option value="htmlcssjs">Bootstrap + Vue JS CDN + PHP + MYSQL + PDO</option>
+                            <option value="htmlcssjs">Materialize + JS</option>
+                            <option value="htmlcssjs">Materialize + JS + PHP + MYSQL + PDO</option>
+                            <option value="htmlcssjs">Materialize + Vue JS CDN</option>
+                            <option value="htmlcssjs">Materialize + Vue JS CDN + PHP + MYSQL + PDO</option>
+                            <option value="htmlcssjs">Tailwind + JS</option>
+                            <option value="htmlcssjs">Tailwind + JS + PHP + MYSQL + PDO</option>
+                            <option value="htmlcssjs">Tailwind + Vue JS CDN</option>
+                            <option value="htmlcssjs">Tailwind + Vue JS CDN + PHP + MYSQL + PDO</option>
+                            <option value="htmlcssjs">Personalizado</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="front" class="form-label">Qual a linguagem Frontend?</label>
+                        <select class="form-select" id="front" v-model="front" required>
+                            <option value="htmlcssjs">HTML CSS JS</option>
+                            <option value="tailwind">Tailwind CSS</option>
+                            <option value="bootstrap">Bootstrap</option>
+                            <option value="materialize">Materialize</option>
+                            <option value="vue">Vue JS</option>
+                            <option value="nuxt">Nuxt JS</option>
+                            <option value="react">React JS</option>
+                            <option value="next">Next JS</option>
+                            <option value="angular">Angular JS</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="back" class="form-label">Qual a linguagem Backend?</label>
+                        <select class="form-select" id="back" v-model="back" required>
+                            <option value="php">PHP</option>
+                            <option value="laravel">Laravel</option>
+                            <option value="node">Node JS</option>
+                            <option value="express">Express JS</option>
+                            <option value="python">Python</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="banco" class="form-label">Qual o banco de dados?</label>
+                        <select class="form-select" id="banco" v-model="banco" required>
+                            <option value="mysql">MySQL</option>
+                            <option value="mariadb">MariaDB</option>
+                            <option value="postgresql">PostgreSQL</option>
+                            <option value="mongodb">MongoDB</option>
+                            <option value="sqlite">SQLite</option>
+                            <option value="redis">Redis</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <center class="my-3"><span class="text-muted">Opções Adicionais:</label></center>
+                    <div class="row">
+                        <!-- Aplique conceitos e técnicas de UI/UX para deixar a aplicação profissional. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="uiux" v-model="opcoes.uiux">
+                            <label class="form-check-label" for="uiux">Técnicas de UI/UX</label>
+                        </div>
+
+                        <!-- Aplique tecnicas para SEO. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="seo" v-model="opcoes.seo">
+                            <label class="form-check-label" for="seo">Técnicas de SEO</label>
+                        </div>
+
+                        <!-- Utilize conceitos de segurança da informação. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="seguranca" v-model="opcoes.seguranca">
+                            <label class="form-check-label" for="seguranca">Segurança da Informação</label>
+                        </div>
+
+                        <!-- Utilize bootstrap5 para estilização. -->
+
+                        <!-- Utilize Font Awesome Icons para icones. -->
+
+                        <!-- Utilize SweetAlert2 para alertas. -->
+
+                        <!-- Utilize DataTables para tabelas. -->
+
+                        <!-- Utilize google charts para gráficos. -->
+
+                        <!-- Insira as meta-tags keywords, description, robots -->
+
+                        <!-- o sistema deve ser projetado no formato de back e front comunicando via api rest -->
+
+                        <!-- Incluir sistema de Autenticação / Autorização / Permissão. Configurar Controle de Acesso -->
+
+                    </div>
+
+                    <div class="mb-3">
+                        <center class="my-3"><span class="text-muted">Documentações:</label></center>
+                        <div class="row">
+                           <!-- Termo de abertura do projeto -->
+                           <!-- Plano de gerenciamento do projeto -->
+                           <!-- Plano de gerenciamento do escopo -->
+                           <!-- Plano de gerenciamento do cronograma -->
+                           <!-- Plano de gerenciamento da equipe -->
+                           <!-- Plano de gerenciamento do trabalho -->
+                           <!-- Plano de garantia de qualidade -->
+                           <!-- Plano de gerenciamento de riscos -->
+                           <!-- Controle de projetos automatizado -->
+                           <!-- documento de Visão do Negócio. -->
+                           <!-- Descrição dos Casos de Uso. -->
+                           <!-- Descrição dos Requisitos. -->
+                           <!-- Descrição das Classes e Objetos. -->
+                           <!-- Descrição dos processos. -->
+                           <!-- Documentação técnica – funcionalidades e relação de entrada, manipulação e saída de dados. -->
+                           <!-- Dicionário de Dados. -->
+                           <!-- Modelo de Integração de Sistemas. -->
+                           <!-- Plano de Testes Unitários. -->
+                           <!-- Plano de Testes Funcionais. -->
+                           <!-- Plano de Homologação. -->
+                           <!-- Plano de Validação de Entradas e Saídas. -->
+                           <!-- Plano de Implantação. -->
+                           <!-- Documento de Serviços de Negócio. -->
+                           <!-- Markdown do arquivo readme para git. -->
+                            <!-- Documentação de API (Swagger). -->
+
+    
+                        </div>
+    
+                </div>
+
+                <center class="mt-5 d-flex justify-content-evenly">
+                    <button @click="goBack" class="btn btn-secondary px-5"> <i class="fa-solid fa-trash"></i> Limpar </button>
+                    <button type="submit" class="btn btn-primary px-5"> <i class="fa-solid fa-gear"></i> Gerar Prompt</button>
+                </center>
+            </form>
+
+            <div v-if="promptGenerated" class="mt-4">
+                <div class="d-flex justify-content-evenly">
+                    <h4>Preview Prompt Gerado:</h4>
+                    <button @click="copyToClipboard" class="btn btn-success px-5"> <i class="fa-solid fa-rotate"></i> Copiar </button>
+                </div>
+                <div>
+                    <!-- <small readonly>{{ generatedPrompt }}</small> -->
+                    <textarea class="form-control mt-3" rows="15" readonly disabled>{{ generatedPrompt }}</textarea>
+                </div>
+                <div>
+                    <center class="mt-5 d-flex justify-content-evenly">
+                        <button @click="goBack" class="btn btn-danger px-5"> <i class="fa-solid fa-rotate"></i> Voltar </button>
+                        <button @click="copyToClipboard" class="btn btn-primary px-5"> <i class="fa-solid fa-rotate"></i> Copiar </button>
+                    </center>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-8">
+            <p class="text-sm text-gray-500 text-center">Feito com ♥ por hotwyl | Gerador de Prompt para Chat GPT &reg; Todos os direitos reservados | &copy; <a href="#" target="_blank">WILLFROMBRASIL</a>™ Company Inc <span>{{ year }}</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    tipo: '',
+                    origem: '',
+                    desejado: '',
+                    comprimento: '',
+                    tomDeVoz: '',
+                    pontoDeVista: '',
+                    opcoes: {
+                        introducao: false,
+                        conclusao: false,
+                        dadosTempoReal: false,
+                        editorEsboços: false,
+                        secaoFAQ: false,
+                        principaisTopicos: false,
+                        sinonimosVariacoes: false,
+                        subtitulos: false,
+                        listas: false,
+                        frases: false,
+                    },
+                    promptGenerated: false,
+                    generatedPrompt: '',
+                    lengthComprimento: 600,
+                    otherTomDeVoz: 'normal',
+                    otherPontoDeVista: 'normal',
+                    linguagem: '',
+                    idioma: '',
+                    year: new Date().getFullYear(),
+                };
+            },
+            methods: {
+                generatePrompt() {
+                    // identificar o comprimento do artigo
+                    if (this.comprimento === 'curto') {
+                        this.lengthComprimento = 450;
+                    } else if (this.comprimento === 'curta') {
+                        this.lengthComprimento = 950;
+                    } else if (this.comprimento === 'medio') {
+                        this.lengthComprimento = 1350;
+                    } else if (this.comprimento === 'longa') {
+                        this.lengthComprimento = 1900;
+                    } else if (this.comprimento === 'maislongo') {
+                        this.lengthComprimento = 2350;
+                    }
+
+                    // identificar o tom de voz
+                    if (this.tomDeVoz === 'seoOtimizado') {
+                        this.otherTomDeVoz = 'Confidente, Conhecedor, Neutro e Claro';
+                    } else if (this.tomDeVoz === 'animado') {
+                        this.otherTomDeVoz = 'Animado';
+                    } else if (this.tomDeVoz === 'profissional') {
+                        this.otherTomDeVoz = 'Profissional';
+                    } else if (this.tomDeVoz === 'amigavel') {
+                        this.otherTomDeVoz = 'Amigável';
+                    } else if (this.tomDeVoz === 'formal') {
+                        this.otherTomDeVoz = 'Formal';
+                    } else if (this.tomDeVoz === 'casual') {
+                        this.otherTomDeVoz = 'Casual';
+                    } else if (this.tomDeVoz === 'humoroso') {
+                        this.otherTomDeVoz = 'Humoroso';
+                    }
+
+                    // identificar o ponto de vista
+                    if (this.pontoDeVista === 'primeiraPessoaSingular') {
+                        this.otherPontoDeVista = 'Eu, eu, meu, meu';
+                    } else if (this.pontoDeVista === 'primeiraPessoaPlural') {
+                        this.otherPontoDeVista = 'nós, nós, nosso, nosso';
+                    } else if (this.pontoDeVista === 'segundaPessoa') {
+                        this.otherPontoDeVista = 'você, seu, seu';
+                    } else if (this.pontoDeVista === 'terceiraPessoa') {
+                        this.otherPontoDeVista = 'ele, ela, eles';
+                    }
+
+this.generatedPrompt += `
+Ignore todas as solicitações e ações anteriores.
+
+Você é Gestor de projetos, Product Owner e Scrum Master brilhante que ja produziu diversos sistemas web de sucesso que geram muita receita de lucratividade.
+
+crie uma equipe emulando mentes virtuais com pelo menos um Desenvolvedor front-end, um Desenvolvedor back-end, um Desenvolvedor Fullstack, um Analista de banco de dados, um engenheiro de software, um Arquiteto de software, um Cientista de Dados, um UX/UI Designer, um Web designer, um Analista de sistemas, um especialista na Area e um especialista no assunto. Os membro desta equipe são especialista com muita experiencia e trabalharão juntos para projetar e desenvolver o melhor sistema. Um sistema, eficiente, seguro, incrivel de sucesso para ser hospedado na internet.
+
+Cada um tem uma mente com o nível de inteligência acima do normal. Um gênio que combinam o pensamento criativo e as habilidades necessárias para encontrar soluções inovadoras. Sendo raro na sociedade e desafiando o conhecimento comum possue excelentes habilidades e maestria de colaboração expressando suas opiniões sem medo, com o objetivo de inovar e estar um passo a frente.
+
+Cada Mente da equipe deve ser apresentada no seguinte formato:
+{Nome} : {Formação} - {especialização} - {Experiencia} - {personalidade}.
+
+O sistema deve ser desenvolvido em {linguagem} e {linguagem}.
+
+A equipe deverá ser formada de acordo com o sistema ou softeware a ser desenvolvido. Após entender o problema e ou objetivo apresente a equipe. Esta equipe irá fazer sessões, consultoria e mentoria para guiar, orientar e ajudandar. Apresente os primeiros passos.
+
+Após Montar a equipe começe a definir regra de negocio e recursos. Para melhor compreender a regra de negócios faça o levantamento de requisitos.
+
+Logo após definir a regra de negocio defina arquitetura, tecnologias e linguagens.
+
+Considere os seguintes topicos no levantamento de requisitos:
+
+- o sistema deve ser projetado no formato de back e front comunicando via api rest com autenticação
+- o sistema deve utilizar conceitos e técnicas de UI/UX para deixar a aplicação profissional.
+- o sistema deve utilizar utilizar Aplique tecnicas para SEO.
+- o sistema deve utilizar laravel + mysql no backend.
+- o sistema deve utilizar vuejs + bootstrap no frontend.
+                    - 
+Faça perguntas e dê sugestões das regras de negócio até que eu esteja satisfeito e diga que pode prossegir para proxima etapa. Antes de prosseguir para proxima etapa descreva / liste as regras de negocio definidas para o sistema.
+
+Após entender a regra de negocio e fazer o levantamento de requisitos, defina as etapas e passos para desenvolvimento.
+
+`;
+
+if(this.lengthComprimento){
+    this.generatedPrompt += `
+- Deve conter pelo menos ${this.lengthComprimento} palavras.`;
+}
+
+if(this.otherPontoDeVista){
+    this.generatedPrompt += `
+- Deve ser escrito no ponto de vista ${this.otherPontoDeVista}.`;
+}
+
+if(this.otherTomDeVoz){
+    this.generatedPrompt += `
+- Deve ser escrito em tom de voz ${this.otherTomDeVoz}.`;
+}
+
+if(this.linguagem){
+    this.generatedPrompt += `
+- Deve ser escrito em linguagem ${this.linguagem}.`;
+}
+
+this.generatedPrompt += `- Crie um título atraente que inclua a palavra-chave principal.
+- Mantenha o título com 60-70 caracteres para garantir que ele seja exibido completamente nos resultados de pesquisa.
+- Customize a URL do seu artigo para incluir a palavra-chave principal.
+- Evite URLs longas e confusas.
+- Use a palavra-chave principal no primeiro parágrafo do seu artigo.
+- Inclua a palavra-chave principal de forma natural na introdução.
+- Inclua outras palavras-chaves nos títulos e subtítulos (Heading Tags).
+- Forneça informações úteis, relevantes e precisas sobre o tópico.
+- Use imagens, vídeos e gráficos relevantes para enriquecer o conteúdo.
+- Inclua links para outras páginas do seu próprio site (linkagem interna) sempre que relevante.
+- Adicione links externos para fontes confiáveis e autoritativas para dar suporte às informações do seu artigo.
+- Além da palavra-chave principal, inclua palavras-chave de cauda longa relacionadas ao longo do texto.
+- Evite o excesso de otimização de palavras-chave. Mantenha uma densidade natural e não force palavras-chave.
+`;
+
+if(this.opcoes.introducao){
+    this.generatedPrompt += `
+- Inclua uma introdução interessante que explique o que o leitor aprenderá com o artigo e prenda a atenção dos leitores.`;
+}
+
+if(this.opcoes.conclusao){
+    this.generatedPrompt += `
+- Inclua uma conclusão que resuma as principais ideias do artigo.`;
+}
+
+if(this.opcoes.dadosTempoReal){
+    this.generatedPrompt += `
+- Inclua dados em tempo real para tornar o artigo mais atualizado.`;
+}
+
+if(this.opcoes.editorEsboços){
+    this.generatedPrompt += `
+- Use o editor de esboços para criar um esboço do artigo.`;
+}
+
+if(this.opcoes.secaoFAQ){
+    this.generatedPrompt += `
+- Inclua uma seção de perguntas frequentes (FAQ) para responder às perguntas mais comuns.`;
+}
+
+if(this.opcoes.principaisTopicos){
+    this.generatedPrompt += `
+- Inclua uma seção com os principais tópicos do artigo para facilitar a navegação.`;
+}
+
+if(this.opcoes.sinonimosVariacoes){
+    this.generatedPrompt += `
+- Usar sinônimos e variações de palavras-chave para evitar repetições.`;
+}
+
+if(this.opcoes.subtitulos){
+    this.generatedPrompt += `
+- Use subtítulos (Heading Tags) para dividir o conteúdo em seções.`;
+}
+
+if(this.opcoes.listas){
+    this.generatedPrompt += `
+- Use listas numeradas e com marcadores para tornar o conteúdo mais legível.`;
+}
+
+if(this.opcoes.frases){
+    this.generatedPrompt += `
+- Use frases curtas e parágrafos curtos para tornar o conteúdo mais legível.`;
+}
+
+this.generatedPrompt += `
+Após criar o post e eu confirmar satisfação, prossiga:
+
+- Escreva uma meta descrição concisa e atraente que inclua a palavra-chave principal.
+- Mantenha a meta descrição com cerca de 150-160 caracteres.
+- Liste as melhores palavras-chave, tags e categorias para este post.
+- Crie um resumo do artigo em um parágrafo com até 250 caracteres.
+- Descreva imagens que representem este artigo. Informe os atributos (title, alt, description, legend, url, uri) para tag HTML img da imagem.
+- Gere as configurações de SEO do WordPress para este artigo.
+- Gere as configurações para o plugin Rank Math para este artigo.
+
+Indique as configurações e formatações para publicar este post no WordPress.
+ATENÇÃO:
+
+- Nunca imprima caracteres especiais como <>[]{} nem tags.
+- Por favor, escreva em ${this.idioma}.
+`;
+
+                    this.promptGenerated = true;
+                },
+                copyToClipboard() {
+                    const textarea = document.createElement('textarea');
+                    // Substituir quebras de linha por espaços
+                    const promptWithoutNewlines = this.generatedPrompt.replace(/\n/g, ' ');
+                    textarea.value = promptWithoutNewlines;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    Swal.fire('Conteúdo copiado para a área de transferência!');
+                },
+                goBack() {
+                    this.promptGenerated = false;
+                    // Redirecione ou faça qualquer outra ação ao voltar
+                    location.reload();
+                }
+            },
+            created() {
+                this.year = new Date().getFullYear();
+            },
+            mounted() {
+            },
+            updated() {
+            }
+        });
+        app.mount('#app');
+    </script>
+
+</body>
+
+</html>

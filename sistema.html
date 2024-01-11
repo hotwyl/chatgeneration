@@ -98,7 +98,7 @@
         </header>
 
         <main id="content" class="container m-5 p-5">
-            <form @submit.prevent="generatePrompt" v-if="!promptGenerated">
+            <form @submit.prevent="generatePrompt" v-if="!promptGenerated" autocomplete="off">
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label for="descricao" class="form-label">Informe qual sistema deseja desenvolver:</label>
@@ -118,29 +118,29 @@
                     <div class="col-md-6 mb-3">
                         <label for="stack" class="form-label">Qual a Stack de desenvolvimento?</label>
                         <select class="form-select" id="stack" v-model="stack" required>
-                            <option value="htmlcssjs">Personalizado</option>
-                            <option value="htmlcssjs">HTML + CSS + JS</option>
-                            <option value="htmlcssjs">HTML + CSS + JS + PHP + MYSQL + PDO</option>
-                            <option value="htmlcssjs">HTML + CSS + Vue JS CDN</option>
-                            <option value="htmlcssjs">HTML + CSS + Vue JS CDN + PHP + MYSQL + PDO</option>
-                            <option value="htmlcssjs">Bootstrap + JS</option>
-                            <option value="htmlcssjs">Bootstrap + JS + PHP + MYSQL + PDO</option>
-                            <option value="htmlcssjs">Bootstrap + Vue JS CDN</option>
-                            <option value="htmlcssjs">Bootstrap + Vue JS CDN + PHP + MYSQL + PDO</option>
-                            <option value="htmlcssjs">Materialize + JS</option>
-                            <option value="htmlcssjs">Materialize + JS + PHP + MYSQL + PDO</option>
-                            <option value="htmlcssjs">Materialize + Vue JS CDN</option>
-                            <option value="htmlcssjs">Materialize + Vue JS CDN + PHP + MYSQL + PDO</option>
-                            <option value="htmlcssjs">Tailwind + JS</option>
-                            <option value="htmlcssjs">Tailwind + JS + PHP + MYSQL + PDO</option>
-                            <option value="htmlcssjs">Tailwind + Vue JS CDN</option>
-                            <option value="htmlcssjs">Tailwind + Vue JS CDN + PHP + MYSQL + PDO</option>
-                            <option value="htmlcssjs">Personalizado</option>
+                            <option value="personalizado">Personalizado</option>
+                            <option value="html1">HTML + CSS + JS</option>
+                            <option value="html2">HTML + CSS + JS + PHP + MYSQL + PDO</option>
+                            <option value="html3">HTML + CSS + Vue JS CDN</option>
+                            <option value="html4">HTML + CSS + Vue JS CDN + PHP + MYSQL + PDO</option>
+                            <option value="bootstrap1">Bootstrap + JS</option>
+                            <option value="bootstrap2">Bootstrap + JS + PHP + MYSQL + PDO</option>
+                            <option value="bootstrap3">Bootstrap + Vue JS CDN</option>
+                            <option value="bootstrap4">Bootstrap + Vue JS CDN + PHP + MYSQL + PDO</option>
+                            <option value="materialize1">Materialize + JS</option>
+                            <option value="materialize2">Materialize + JS + PHP + MYSQL + PDO</option>
+                            <option value="materialize3">Materialize + Vue JS CDN</option>
+                            <option value="materialize4">Materialize + Vue JS CDN + PHP + MYSQL + PDO</option>
+                            <option value="tailwind1">Tailwind + JS</option>
+                            <option value="tailwind2">Tailwind + JS + PHP + MYSQL + PDO</option>
+                            <option value="tailwind3">Tailwind + Vue JS CDN</option>
+                            <option value="tailwind4">Tailwind + Vue JS CDN + PHP + MYSQL + PDO</option>
+                            <option value="personalizado">Personalizado</option>
                         </select>
                     </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label for="front" class="form-label">Qual a linguagem Frontend?</label>
+                    <div class="col-md-6 mb-3" v-if="stack === 'personalizado'">
+                        <label for=" front" class="form-label">Qual a linguagem Frontend?</label>
                         <select class="form-select" id="front" v-model="front" required>
                             <option value="htmlcssjs">HTML CSS JS</option>
                             <option value="tailwind">Tailwind CSS</option>
@@ -154,7 +154,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-6 mb-3" v-if="stack === 'personalizado'">
                         <label for="back" class="form-label">Qual a linguagem Backend?</label>
                         <select class="form-select" id="back" v-model="back" required>
                             <option value="php">PHP</option>
@@ -165,7 +165,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-6 mb-3" v-if="stack === 'personalizado'">
                         <label for="banco" class="form-label">Qual o banco de dados?</label>
                         <select class="form-select" id="banco" v-model="banco" required>
                             <option value="mysql">MySQL</option>
@@ -201,58 +201,219 @@
                         </div>
 
                         <!-- Utilize bootstrap5 para estilização. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="bootstrap" v-model="opcoes.bootstrap">
+                            <label class="form-check-label" for="bootstrap">Bootstrap 5</label>
+                        </div>
 
                         <!-- Utilize Font Awesome Icons para icones. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="fontawesome" v-model="opcoes.fontawesome">
+                            <label class="form-check-label" for="fontawesome">Font Awesome Icons</label>
+                        </div>
 
                         <!-- Utilize SweetAlert2 para alertas. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="sweetalert2" v-model="opcoes.sweetalert2">
+                            <label class="form-check-label" for="sweetalert2">SweetAlert2</label>
+                        </div>
 
                         <!-- Utilize DataTables para tabelas. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="datatables" v-model="opcoes.datatables">
+                            <label class="form-check-label" for="datatables">DataTables</label>
+                        </div>
 
                         <!-- Utilize google charts para gráficos. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="googlecharts" v-model="opcoes.googlecharts">
+                            <label class="form-check-label" for="googlecharts">Google Charts</label>
+                        </div>
 
                         <!-- Insira as meta-tags keywords, description, robots -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="metatags" v-model="opcoes.metatags">
+                            <label class="form-check-label" for="metatags">Meta Tags</label>
+                        </div>
 
                         <!-- o sistema deve ser projetado no formato de back e front comunicando via api rest -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="api" v-model="opcoes.api">
+                            <label class="form-check-label" for="api">API REST</label>
+                        </div>
 
                         <!-- Incluir sistema de Autenticação / Autorização / Permissão. Configurar Controle de Acesso -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="auth" v-model="opcoes.auth">
+                            <label class="form-check-label" for="auth">Autenticação</label>
+                        </div>  
 
                     </div>
-
-                    <div class="mb-3">
-                        <center class="my-3"><span class="text-muted">Documentações:</label></center>
-                        <div class="row">
-                           <!-- Termo de abertura do projeto -->
-                           <!-- Plano de gerenciamento do projeto -->
-                           <!-- Plano de gerenciamento do escopo -->
-                           <!-- Plano de gerenciamento do cronograma -->
-                           <!-- Plano de gerenciamento da equipe -->
-                           <!-- Plano de gerenciamento do trabalho -->
-                           <!-- Plano de garantia de qualidade -->
-                           <!-- Plano de gerenciamento de riscos -->
-                           <!-- Controle de projetos automatizado -->
-                           <!-- documento de Visão do Negócio. -->
-                           <!-- Descrição dos Casos de Uso. -->
-                           <!-- Descrição dos Requisitos. -->
-                           <!-- Descrição das Classes e Objetos. -->
-                           <!-- Descrição dos processos. -->
-                           <!-- Documentação técnica – funcionalidades e relação de entrada, manipulação e saída de dados. -->
-                           <!-- Dicionário de Dados. -->
-                           <!-- Modelo de Integração de Sistemas. -->
-                           <!-- Plano de Testes Unitários. -->
-                           <!-- Plano de Testes Funcionais. -->
-                           <!-- Plano de Homologação. -->
-                           <!-- Plano de Validação de Entradas e Saídas. -->
-                           <!-- Plano de Implantação. -->
-                           <!-- Documento de Serviços de Negócio. -->
-                           <!-- Markdown do arquivo readme para git. -->
-                            <!-- Documentação de API (Swagger). -->
-
-    
-                        </div>
-    
                 </div>
 
-                <center class="mt-5 d-flex justify-content-evenly">
+                <div class="mb-3">
+                    <center class="my-3"><span class="text-muted">Documentações:</label></center>
+                    <div class="row">
+                        <!-- Declaração de escopo do projeto -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="declaracao_escopo" v-model="documentacao.escopo">
+                            <label class="form-check-label" for="declaracao_escopo">Declaração de Escopo do Projeto</label>
+                        </div>
+
+                        <!-- Termo de abertura do projeto -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="abertura" v-model="documentacao.abertura">
+                            <label class="form-check-label" for="abertura">Termo de Abertura do Projeto</label>
+                        </div>
+
+                        <!-- Plano de gerenciamento do projeto -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="gerenciamento" v-model="documentacao.gerenciamento">
+                            <label class="form-check-label" for="gerenciamento">Plano de Gerenciamento do Projeto</label>
+                        </div>
+
+                        <!-- Plano de gerenciamento do escopo -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="gerenciamento_escopo" v-model="documentacao.gerenciamento_escopo">
+                            <label class="form-check-label" for="gerenciamento_escopo">Plano de Gerenciamento do Escopo</label>
+                        </div>
+
+                        <!-- Plano de gerenciamento do cronograma -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="cronograma" v-model="documentacao.cronograma">
+                            <label class="form-check-label" for="cronograma">Plano de Gerenciamento do Cronograma</label>
+                        </div>
+
+                        <!-- Plano de gerenciamento da equipe -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="equipe" v-model="documentacao.equipe">
+                            <label class="form-check-label" for="equipe">Plano de Gerenciamento da Equipe</label>
+                        </div>
+
+                        <!-- Plano de gerenciamento do trabalho -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="trabalho" v-model="documentacao.trabalho">
+                            <label class="form-check-label" for="trabalho">Plano de Gerenciamento do Trabalho</label>
+                        </div>
+
+                        <!-- Plano de garantia de qualidade -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="qualidade" v-model="documentacao.qualidade">
+                            <label class="form-check-label" for="qualidade">Plano de Garantia de Qualidade</label>
+                        </div>
+
+                        <!-- Plano de gerenciamento de riscos -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="riscos" v-model="documentacao.riscos">
+                            <label class="form-check-label" for="riscos">Plano de Gerenciamento de Riscos</label>
+                        </div>
+
+                        <!-- Controle de projetos automatizado -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="automatizado" v-model="documentacao.automatizado">
+                            <label class="form-check-label" for="automatizado">Controle de Projetos Automatizado</label>
+                        </div>
+
+                        <!-- documento de Visão do Negócio. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="visao" v-model="documentacao.visao">
+                            <label class="form-check-label" for="visao">Documento de Visão do Negócio</label>
+                        </div>
+
+                        <!-- Descrição dos Casos de Uso. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="casos" v-model="documentacao.casos">
+                            <label class="form-check-label" for="casos">Descrição dos Casos de Uso</label>
+                        </div>
+
+                        <!-- Descrição dos Requisitos. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="requisitos" v-model="documentacao.requisitos">
+                            <label class="form-check-label" for="requisitos">Descrição dos Requisitos</label>
+                        </div>
+
+                        <!-- Descrição das Classes e Objetos. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="classes" v-model="documentacao.classes">
+                            <label class="form-check-label" for="classes">Descrição das Classes e Objetos</label>
+                        </div>
+
+                        <!-- Descrição dos processos. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="processos" v-model="documentacao.processos">
+                            <label class="form-check-label" for="processos">Descrição dos processos</label>
+                        </div>
+
+                        <!-- Documentação técnica – funcionalidades e relação de entrada, manipulação e saída de dados. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="tecnica" v-model="documentacao.tecnica">
+                            <label class="form-check-label" for="tecnica">Documentação Técnica</label>
+                        </div>
+
+                        <!-- Dicionário de Dados. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="dicionario" v-model="documentacao.dicionario">
+                            <label class="form-check-label" for="dicionario">Dicionário de Dados</label>
+                        </div>
+
+                        <!-- Modelo de Integração de Sistemas. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="integracao" v-model="documentacao.integracao">
+                            <label class="form-check-label" for="integracao">Modelo de Integração de Sistemas</label>
+                        </div>
+
+                        <!-- Plano de Testes Unitários. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="testes" v-model="documentacao.testes">
+                            <label class="form-check-label" for="testes">Plano de Testes Unitários</label>
+                        </div>
+
+                        <!-- Plano de Testes Funcionais. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="funcionais" v-model="documentacao.funcionais">
+                            <label class="form-check-label" for="funcionais">Plano de Testes Funcionais</label>
+                        </div>
+
+                        <!-- Plano de Homologação. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="homologacao" v-model="documentacao.homologacao">
+                            <label class="form-check-label" for="homologacao">Plano de Homologação</label>
+                        </div>
+
+                        <!-- Plano de Validação de Entradas e Saídas. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="validacao" v-model="documentacao.validacao">
+                            <label class="form-check-label" for="validacao">Plano de Validação de Entradas e Saídas</label>
+                        </div>
+
+                        <!-- Plano de Implantação. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="implantacao" v-model="documentacao.implantacao">
+                            <label class="form-check-label" for="implantacao">Plano de Implantação</label>
+                        </div>
+
+                        <!-- Documento de Serviços de Negócio. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="servicos" v-model="documentacao.servicos">
+                            <label class="form-check-label" for="servicos">Documento de Serviços de Negócio</label>
+                        </div>
+
+                        <!-- Markdown do arquivo readme para git. -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="readme" v-model="documentacao.readme">
+                            <label class="form-check-label" for="readme">Markdown do Arquivo Readme</label>
+                        </div>
+
+                        <!-- Documentação de API (Swagger). -->
+                        <div class="col-md-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="swagger_api" v-model="documentacao.swagger_api">
+                            <label class="form-check-label" for="swagger_api">Documentação de API (Swagger)</label>
+                        </div>
+
+                    </div>
+                </div>
+    
+                <center class="my-5 d-flex justify-content-evenly">
                     <button @click="goBack" class="btn btn-secondary px-5"> <i class="fa-solid fa-trash"></i> Limpar </button>
                     <button type="submit" class="btn btn-primary px-5"> <i class="fa-solid fa-gear"></i> Gerar Prompt</button>
                 </center>
@@ -282,84 +443,72 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin=" anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin=" anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         const app = Vue.createApp({
             data() {
                 return {
-                    tipo: '',
-                    origem: '',
-                    desejado: '',
-                    comprimento: '',
-                    tomDeVoz: '',
-                    pontoDeVista: '',
+                    descricao: '',
+                    persona: '',
+                    objetivo: '',
+                    stack: '',
+                    front: '',
+                    back: '',
+                    banco: '',
                     opcoes: {
-                        introducao: false,
-                        conclusao: false,
-                        dadosTempoReal: false,
-                        editorEsboços: false,
-                        secaoFAQ: false,
-                        principaisTopicos: false,
-                        sinonimosVariacoes: false,
-                        subtitulos: false,
-                        listas: false,
-                        frases: false,
+                        uiux: false,
+                        seo: false,
+                        seguranca: false,
+                        bootstrap: false,
+                        fontawesome: false,
+                        sweetalert2: false,
+                        datatables: false,
+                        googlecharts: false,
+                        metatags: false,
+                        api: false,
+                        auth: false,
+                    },
+                    documentacao: {
+                        escopo: false,
+                        abertura: false,
+                        gerenciamento: false,
+                        gerenciamento_escopo: false,
+                        cronograma: false,
+                        equipe: false,
+                        trabalho: false,
+                        qualidade: false,
+                        riscos: false,
+                        automatizado: false,
+                        visao: false,
+                        casos: false,
+                        requisitos: false,
+                        classes: false,
+                        processos: false,
+                        tecnica: false,
+                        dicionario: false,
+                        integracao: false,
+                        testes: false,
+                        funcionais: false,
+                        homologacao: false,
+                        validacao: false,
+                        implantacao: false,
+                        servicos: false,
+                        readme: false,
+                        swagger_api: false,
                     },
                     promptGenerated: false,
                     generatedPrompt: '',
-                    lengthComprimento: 600,
-                    otherTomDeVoz: 'normal',
-                    otherPontoDeVista: 'normal',
-                    linguagem: '',
-                    idioma: '',
+                    idioma: 'Português',
                     year: new Date().getFullYear(),
                 };
             },
             methods: {
                 generatePrompt() {
-                    // identificar o comprimento do artigo
-                    if (this.comprimento === 'curto') {
-                        this.lengthComprimento = 450;
-                    } else if (this.comprimento === 'curta') {
-                        this.lengthComprimento = 950;
-                    } else if (this.comprimento === 'medio') {
-                        this.lengthComprimento = 1350;
-                    } else if (this.comprimento === 'longa') {
-                        this.lengthComprimento = 1900;
-                    } else if (this.comprimento === 'maislongo') {
-                        this.lengthComprimento = 2350;
-                    }
-
-                    // identificar o tom de voz
-                    if (this.tomDeVoz === 'seoOtimizado') {
-                        this.otherTomDeVoz = 'Confidente, Conhecedor, Neutro e Claro';
-                    } else if (this.tomDeVoz === 'animado') {
-                        this.otherTomDeVoz = 'Animado';
-                    } else if (this.tomDeVoz === 'profissional') {
-                        this.otherTomDeVoz = 'Profissional';
-                    } else if (this.tomDeVoz === 'amigavel') {
-                        this.otherTomDeVoz = 'Amigável';
-                    } else if (this.tomDeVoz === 'formal') {
-                        this.otherTomDeVoz = 'Formal';
-                    } else if (this.tomDeVoz === 'casual') {
-                        this.otherTomDeVoz = 'Casual';
-                    } else if (this.tomDeVoz === 'humoroso') {
-                        this.otherTomDeVoz = 'Humoroso';
-                    }
-
-                    // identificar o ponto de vista
-                    if (this.pontoDeVista === 'primeiraPessoaSingular') {
-                        this.otherPontoDeVista = 'Eu, eu, meu, meu';
-                    } else if (this.pontoDeVista === 'primeiraPessoaPlural') {
-                        this.otherPontoDeVista = 'nós, nós, nosso, nosso';
-                    } else if (this.pontoDeVista === 'segundaPessoa') {
-                        this.otherPontoDeVista = 'você, seu, seu';
-                    } else if (this.pontoDeVista === 'terceiraPessoa') {
-                        this.otherPontoDeVista = 'ele, ela, eles';
-                    }
-
+                    this.promptGenerated = true;
+                    this.generatedPrompt = '';
+   
 this.generatedPrompt += `
 Ignore todas as solicitações e ações anteriores.
 
@@ -372,123 +521,315 @@ Cada um tem uma mente com o nível de inteligência acima do normal. Um gênio q
 Cada Mente da equipe deve ser apresentada no seguinte formato:
 {Nome} : {Formação} - {especialização} - {Experiencia} - {personalidade}.
 
-O sistema deve ser desenvolvido em {linguagem} e {linguagem}.
-
 A equipe deverá ser formada de acordo com o sistema ou softeware a ser desenvolvido. Após entender o problema e ou objetivo apresente a equipe. Esta equipe irá fazer sessões, consultoria e mentoria para guiar, orientar e ajudandar. Apresente os primeiros passos.
 
 Após Montar a equipe começe a definir regra de negocio e recursos. Para melhor compreender a regra de negócios faça o levantamento de requisitos.
 
-Logo após definir a regra de negocio defina arquitetura, tecnologias e linguagens.
+Logo após definir a regra de negocio defina arquitetura, tecnologias e linguagens.`
 
-Considere os seguintes topicos no levantamento de requisitos:
+if(this.stack !== 'personalizado' && this.stack !== ''){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo}.`
+} else if(this.stack === 'personalizado' && this.stack === 'html1'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando HTML5 + CSS3 + JS vanila.`
+} else if(this.stack === 'personalizado' && this.stack === 'html2'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando HTML5 + CSS3 + JS vanila + PHP 8 + MYSQL + PDO.`
+} else if(this.stack === 'personalizado' && this.stack === 'html3'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando HTML5 + CSS3 + Vue JS 3 CDN.`
+} else if(this.stack === 'personalizado' && this.stack === 'html4'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando HTML5 + CSS3 + Vue JS 3 CDN + PHP 8 + MYSQL + PDO.`
+} else if(this.stack === 'personalizado' && this.stack === 'bootstrap1'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Bootstrap 5 + JS vanila.`
+} else if(this.stack === 'personalizado' && this.stack === 'bootstrap2'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Bootstrap 5 + JS vanila + PHP 8 + MYSQL + PDO.`
+} else if(this.stack === 'personalizado' && this.stack === 'bootstrap3'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Bootstrap 5 + Vue JS 3 CDN.`
+} else if(this.stack === 'personalizado' && this.stack === 'bootstrap4'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Bootstrap 5 + Vue JS 3 CDN + PHP 8 + MYSQL + PDO.`
+} else if(this.stack === 'personalizado' && this.stack === 'materialize1'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Materialize + JS vanila.`
+} else if(this.stack === 'personalizado' && this.stack === 'materialize2'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Materialize + JS vanila + PHP 8 + MYSQL + PDO.`
+} else if(this.stack === 'personalizado' && this.stack === 'materialize3'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Materialize + Vue JS 3 CDN.`
+} else if(this.stack === 'personalizado' && this.stack === 'materialize4'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Materialize + Vue JS 3 CDN + PHP 8 + MYSQL + PDO.`
+} else if(this.stack === 'personalizado' && this.stack === 'tailwind1'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Tailwind + JS vanila.`
+} else if(this.stack === 'personalizado' && this.stack === 'tailwind2'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Tailwind + JS vanila + PHP + MYSQL + PDO.`
+} else if(this.stack === 'personalizado' && this.stack === 'tailwind3'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Tailwind + Vue JS 3 CDN.`
+} else if(this.stack === 'personalizado' && this.stack === 'tailwind4'){
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo} utilizando Tailwind + Vue JS 3 CDN + PHP + MYSQL + PDO.`
+} else {
+this.generatedPrompt += `
+Sera desenvolvido um sistema ${this.descricao} para ${this.persona} com o objetivo de ${this.objetivo}.`
+} 
 
-- o sistema deve ser projetado no formato de back e front comunicando via api rest com autenticação
-- o sistema deve utilizar conceitos e técnicas de UI/UX para deixar a aplicação profissional.
-- o sistema deve utilizar utilizar Aplique tecnicas para SEO.
-- o sistema deve utilizar laravel + mysql no backend.
-- o sistema deve utilizar vuejs + bootstrap no frontend.
-                    - 
-Faça perguntas e dê sugestões das regras de negócio até que eu esteja satisfeito e diga que pode prossegir para proxima etapa. Antes de prosseguir para proxima etapa descreva / liste as regras de negocio definidas para o sistema.
-
-Após entender a regra de negocio e fazer o levantamento de requisitos, defina as etapas e passos para desenvolvimento.
-
-`;
-
-if(this.lengthComprimento){
+if(this.stack === 'personalizado' && front === 'htmlcssjs'){
+this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando HTML5 CSS3 JS vanila no frontend.`;
+} 
+if(this.stack === 'personalizado' && front === 'tailwind'){
     this.generatedPrompt += `
-- Deve conter pelo menos ${this.lengthComprimento} palavras.`;
+O sistema deve ser desenvolvido utilizando Tailwind CSS no frontend.`;
+} 
+if(this.stack === 'personalizado' && front === 'bootstrap'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Bootstrap 5 no frontend.`;
+} 
+if(this.stack === 'personalizado' && front === 'materialize'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Materialize no frontend.`;
+} 
+if(this.stack === 'personalizado' && front === 'vue'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Vue JS 3 no frontend.`;
+} 
+if(this.stack === 'personalizado' && front === 'nuxt'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Nuxt JS 3 no frontend.`;
+} 
+if(this.stack === 'personalizado' && front === 'react'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando React JS no frontend.`;
+} 
+if(this.stack === 'personalizado' && front === 'next'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Next JS no frontend.`;
+} 
+if(this.stack === 'personalizado' && front === 'angular'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Angular JS no frontend.`;
+} 
+
+if(this.stack === 'personalizado' && back !== 'php'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando PHP 8 no backend.`;
+} 
+if(this.stack === 'personalizado' && back !== 'laravel'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Laravel 10 no backend.`;
+}
+ if(this.stack === 'personalizado' && back !== 'node'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Node JS no backend.`;
+} 
+if(this.stack === 'personalizado' && back !== 'express'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Express JS no backend.`;
+} 
+if(this.stack === 'personalizado' && back !== 'python'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Python no backend.`;
 }
 
-if(this.otherPontoDeVista){
+if(this.stack === 'personalizado' && banco === 'mysql'){
     this.generatedPrompt += `
-- Deve ser escrito no ponto de vista ${this.otherPontoDeVista}.`;
+O sistema deve ser desenvolvido utilizando MySQL no banco de dados.`;
+} 
+if(this.stack === 'personalizado' && banco === 'mariadb'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando MariaDB no banco de dados.`;
+} 
+if(this.stack === 'personalizado' && banco === 'postgresql'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando PostgreSQL no banco de dados.`;
+} 
+if(this.stack === 'personalizado' && banco === 'mongodb'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando MongoDB no banco de dados.`;
+} 
+if(this.stack === 'personalizado' && banco === 'sqlite'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando SQLite no banco de dados.`;
+} 
+if(this.stack === 'personalizado' && banco === 'redis'){
+    this.generatedPrompt += `
+O sistema deve ser desenvolvido utilizando Redis no banco de dados.`;
+} 
+
+if(this.opcoes){
+    this.generatedPrompt += `
+Considere os seguintes topicos no levantamento de requisitos:`;
+
+if(this.opcoes.uiux){
+    this.generatedPrompt += `
+- Aplique conceitos e técnicas de UI/UX para deixar a aplicação profissional.`;
+}
+if(this.opcoes.seo){
+    this.generatedPrompt += `
+- Aplique tecnicas para SEO para otimizar e ranquear nos mecanismos de busca.`;
+}
+if(this.opcoes.seguranca){
+    this.generatedPrompt += `
+- Utilize conceitos de segurança da informação.`;
+}
+if(this.opcoes.bootstrap){
+    this.generatedPrompt += `
+- Utilize bootstrap5 para estilização.`;
+}
+if(this.opcoes.fontawesome){
+    this.generatedPrompt += `
+- Utilize Font Awesome Icons para icones.`;
+}
+if(this.opcoes.sweetalert2){
+    this.generatedPrompt += `
+- Utilize SweetAlert2 para alertas.`;
+}
+if(this.opcoes.datatables){
+    this.generatedPrompt += `
+- Utilize DataTables para tabelas.`;
+}
+if(this.opcoes.googlecharts){
+    this.generatedPrompt += `
+- Utilize google charts para gráficos.`;
+}
+if(this.opcoes.metatags){
+    this.generatedPrompt += `
+- Insira as meta-tags keywords, description, robots.`;
+}
+if(this.opcoes.api){
+    this.generatedPrompt += `
+- o sistema deve ser projetado no formato de back e front comunicando via api rest.`;
+}
+if(this.opcoes.auth){
+    this.generatedPrompt += `
+- Incluir sistema de Autenticação / Autorização / Permissão. Configurar Controle de Acesso.`;
+}
 }
 
-if(this.otherTomDeVoz){
+if(this.documentacao){
     this.generatedPrompt += `
-- Deve ser escrito em tom de voz ${this.otherTomDeVoz}.`;
+crie as documentação de desenvolvimento do projeto listadas a seguir:`;
+
+if(this.documentacao.escopo){
+    this.generatedPrompt += `
+- Declaração de Escopo do Projeto`;
 }
-
-if(this.linguagem){
+if(this.documentacao.abertura){
     this.generatedPrompt += `
-- Deve ser escrito em linguagem ${this.linguagem}.`;
+- Termo de Abertura do Projeto`;
 }
-
-this.generatedPrompt += `- Crie um título atraente que inclua a palavra-chave principal.
-- Mantenha o título com 60-70 caracteres para garantir que ele seja exibido completamente nos resultados de pesquisa.
-- Customize a URL do seu artigo para incluir a palavra-chave principal.
-- Evite URLs longas e confusas.
-- Use a palavra-chave principal no primeiro parágrafo do seu artigo.
-- Inclua a palavra-chave principal de forma natural na introdução.
-- Inclua outras palavras-chaves nos títulos e subtítulos (Heading Tags).
-- Forneça informações úteis, relevantes e precisas sobre o tópico.
-- Use imagens, vídeos e gráficos relevantes para enriquecer o conteúdo.
-- Inclua links para outras páginas do seu próprio site (linkagem interna) sempre que relevante.
-- Adicione links externos para fontes confiáveis e autoritativas para dar suporte às informações do seu artigo.
-- Além da palavra-chave principal, inclua palavras-chave de cauda longa relacionadas ao longo do texto.
-- Evite o excesso de otimização de palavras-chave. Mantenha uma densidade natural e não force palavras-chave.
-`;
-
-if(this.opcoes.introducao){
+if(this.documentacao.gerenciamento){
     this.generatedPrompt += `
-- Inclua uma introdução interessante que explique o que o leitor aprenderá com o artigo e prenda a atenção dos leitores.`;
+- Plano de Gerenciamento do Projeto`;
 }
-
-if(this.opcoes.conclusao){
+if(this.documentacao.gerenciamento_escopo){
     this.generatedPrompt += `
-- Inclua uma conclusão que resuma as principais ideias do artigo.`;
+- Plano de Gerenciamento do Escopo`;
 }
-
-if(this.opcoes.dadosTempoReal){
+if(this.documentacao.cronograma){
     this.generatedPrompt += `
-- Inclua dados em tempo real para tornar o artigo mais atualizado.`;
+- Plano de Gerenciamento do Cronograma`;
 }
-
-if(this.opcoes.editorEsboços){
+if(this.documentacao.equipe){
     this.generatedPrompt += `
-- Use o editor de esboços para criar um esboço do artigo.`;
+- Plano de Gerenciamento da Equipe`;
 }
-
-if(this.opcoes.secaoFAQ){
+if(this.documentacao.trabalho){
     this.generatedPrompt += `
-- Inclua uma seção de perguntas frequentes (FAQ) para responder às perguntas mais comuns.`;
+- Plano de Gerenciamento do Trabalho`;
 }
-
-if(this.opcoes.principaisTopicos){
+if(this.documentacao.qualidade){
     this.generatedPrompt += `
-- Inclua uma seção com os principais tópicos do artigo para facilitar a navegação.`;
+- Plano de Garantia de Qualidade`;
 }
-
-if(this.opcoes.sinonimosVariacoes){
+if(this.documentacao.riscos){
     this.generatedPrompt += `
-- Usar sinônimos e variações de palavras-chave para evitar repetições.`;
+- Plano de Gerenciamento de Riscos`;
 }
-
-if(this.opcoes.subtitulos){
+if(this.documentacao.automatizado){
     this.generatedPrompt += `
-- Use subtítulos (Heading Tags) para dividir o conteúdo em seções.`;
+- Controle de Projetos Automatizado`;
 }
-
-if(this.opcoes.listas){
+if(this.documentacao.visao){
     this.generatedPrompt += `
-- Use listas numeradas e com marcadores para tornar o conteúdo mais legível.`;
+- Documento de Visão do Negócio`;
 }
-
-if(this.opcoes.frases){
+if(this.documentacao.casos){
     this.generatedPrompt += `
-- Use frases curtas e parágrafos curtos para tornar o conteúdo mais legível.`;
+- Descrição dos Casos de Uso`;
+}
+if(this.documentacao.requisitos){
+    this.generatedPrompt += `
+- Descrição dos Requisitos`;
+}
+if(this.documentacao.classes){
+    this.generatedPrompt += `
+- Descrição das Classes e Objetos`;
+}
+if(this.documentacao.processos){
+    this.generatedPrompt += `
+- Descrição dos processos`;
+}
+if(this.documentacao.tecnica){
+    this.generatedPrompt += `
+- Documentação Técnica`;
+}
+if(this.documentacao.dicionario){
+    this.generatedPrompt += `
+- Dicionário de Dados`;
+}
+if(this.documentacao.integracao){
+    this.generatedPrompt += `
+- Modelo de Integração de Sistemas`;
+}
+if(this.documentacao.testes){
+    this.generatedPrompt += `
+- Plano de Testes Unitários`;
+}
+if(this.documentacao.funcionais){
+    this.generatedPrompt += `
+- Plano de Testes Funcionais`;
+}
+if(this.documentacao.homologacao){
+    this.generatedPrompt += `
+- Plano de Homologação`;
+}
+if(this.documentacao.validacao){
+    this.generatedPrompt += `
+- Plano de Validação de Entradas e Saídas`;
+}
+if(this.documentacao.implantacao){
+    this.generatedPrompt += `
+- Plano de Implantação`;
+}
+if(this.documentacao.servicos){
+    this.generatedPrompt += `
+- Documento de Serviços de Negócio`;
+}
+if(this.documentacao.readme){
+    this.generatedPrompt += `
+- Markdown do Arquivo Readme`;
+}
+if(this.documentacao.swagger_api){
+    this.generatedPrompt += `
+- Documentação de API (Swagger)`;
+}
 }
 
 this.generatedPrompt += `
-Após criar o post e eu confirmar satisfação, prossiga:
+Faça perguntas e dê sugestões das regras de negócio até que eu esteja satisfeito e diga que pode prossegir para proxima etapa. Antes de prosseguir para proxima etapa descreva / liste as regras de negocio definidas para o sistema.
 
-- Escreva uma meta descrição concisa e atraente que inclua a palavra-chave principal.
-- Mantenha a meta descrição com cerca de 150-160 caracteres.
-- Liste as melhores palavras-chave, tags e categorias para este post.
-- Crie um resumo do artigo em um parágrafo com até 250 caracteres.
-- Descreva imagens que representem este artigo. Informe os atributos (title, alt, description, legend, url, uri) para tag HTML img da imagem.
-- Gere as configurações de SEO do WordPress para este artigo.
-- Gere as configurações para o plugin Rank Math para este artigo.
+Após entender a regra de negocio e fazer o levantamento de requisitos, defina as etapas e passos para desenvolvimento.
 
 Indique as configurações e formatações para publicar este post no WordPress.
 ATENÇÃO:

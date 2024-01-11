@@ -98,7 +98,7 @@
         </header>
 
         <main id="content" class="container m-5 p-5">
-            <form @submit.prevent="generatePrompt" v-if="!promptGenerated">
+            <form @submit.prevent="generatePrompt" v-if="!promptGenerated" autocomplete="off">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="tipo" class="form-label">Selecione o Tipo:</label>

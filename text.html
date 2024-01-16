@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Exemplo de seleção de temas com pesquisa relacionada em JavaScript">
+    <title>Seleção de Temas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        select {
+            padding: 8px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        textarea {
+            margin-top: 20px;
+            width: 100%;
+            height: 200px;
+            resize: none;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Seleção de Temas</h1>
+    </header>
+
+    <main>
+        <label for="temaSelect">Selecione um Tema:</label>
+        <select id="temaSelect">
+            <option value="todos">Selecionar Todos</option>
+            <!-- Opções do select serão adicionadas dinamicamente pelo JavaScript -->
+        </select>
+
+        <button onclick="handleSelect()">Selecionar Tema</button>
+
+        <br>
+
+        <textarea id="resultadoTextarea" readonly placeholder="Resultado da pesquisa será exibido aqui"></textarea>
+    </main>
+
+    <script>
+        const temas = [
+            'Marketing afiliado',
+            'Marketing multinível',
+            'White-label',
+            'PLR - Private Label Rights',
+            'Dropshipping',
+            'PRINT ON DEMAND',
+            'dinheiro online',
+            'renda extra',
+            'trabalho na internet',
+            'renda compartilhada'
+        ];
+
+        const questions = [
+            'assuntos mais quentes sobre',
+            'principais dúvidas sobre',
+            'erros mais frequentes sobre',
+            'melhores dicas sobre',
+            'principais curiosidades sobre',
+            'top assuntos sobre',
+            'temas mais pesquisados sobre',
+            'tópicos mais populares sobre',
+            'principais temas sobre',
+            'principais assuntos sobre',
+            'principais tópicos sobre',
+            'temas relevantes sobre',
+            'assuntos relevantes sobre',
+            'assuntos populares sobre',
+            'assuntos mais quentes sobre',
+            'temas relevantes sobre',
+            'temas populares sobre',
+            'temas mais quentes sobre',
+            'tópicos relevantes sobre',
+            'tópicos mais quentes sobre',
+            'tópicos populares sobre',
+            'dúvidas frequentes sobre',
+            'curiosidades sobre',
+            'dicas sobre',
+        ];
+
+        // Função para lidar com a seleção do tema
+        function handleSelect() {
+            const selectedTema = document.getElementById('temaSelect').value;
+
+            const temasRelacionados = {
+                pesquisa: [],
+                prompt: {
+                    post: [],
+                    video: [],
+                    redesocial: []
+                }
+            };
+
+            if (selectedTema === 'todos') {
+                // Se 'todos' for selecionado, exibir para todos os temas
+                temas.forEach(tema => {
+                    temasRelacionados.pesquisa.push(`blogs sobre ${tema}`);
+                    temasRelacionados.pesquisa.push(`sites sobre ${tema}`);
+                    temasRelacionados.pesquisa.push(`influencers do nicho de ${tema}`);
+
+                    questions.forEach(question => {
+                        temasRelacionados.prompt.post.push(`liste ${question} ${tema} para escrever artigo para blog`);
+                        temasRelacionados.prompt.video.push(`liste ${question} ${tema} para escrever roteiro de vídeo para YouTube`);
+                        temasRelacionados.prompt.redesocial.push(`liste ${question} ${tema} para escrever post para rede social`);
+                    });
+                });
+            } else {
+                // Caso contrário, exibir apenas para o tema selecionado
+                temasRelacionados.pesquisa.push(`blogs sobre ${selectedTema}`);
+                temasRelacionados.pesquisa.push(`sites sobre ${selectedTema}`);
+                temasRelacionados.pesquisa.push(`influencers do nicho de ${selectedTema}`);
+
+                questions.forEach(question => {
+                    temasRelacionados.prompt.post.push(`liste ${question} ${selectedTema} para escrever artigo para blog`);
+                    temasRelacionados.prompt.video.push(`liste ${question} ${selectedTema} para escrever roteiro de vídeo para YouTube`);
+                    temasRelacionados.prompt.redesocial.push(`liste ${question} ${selectedTema} para escrever post para rede social`);
+                });
+            }
+
+            const resultadoTextarea = document.getElementById('resultadoTextarea');
+            resultadoTextarea.value = JSON.stringify(temasRelacionados, null, 2);
+        }
+
+        // Criar as opções do select dinamicamente
+        const selectElement = document.getElementById('temaSelect');
+        temas.forEach(tema => {
+            const optionElement = document.createElement('option');
+            optionElement.value = tema;
+            optionElement.textContent = tema;
+            selectElement.appendChild(optionElement);
+        });
+    </script>
+</body>
+</html>

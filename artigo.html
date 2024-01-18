@@ -107,18 +107,18 @@
                         <input type="url" class="form-control" id="url" v-model="url" required>
                     </div>
 
+                    <!-- persona -->
+                    <div class="col-md-6 mb-3">
+                        <label for="persona" class="form-label">Selecione a Persona do público-alvo:</label>
+                        <input type="persona" class="form-control" id="persona" v-model="persona" required>
+                    </div>
+
                     <!-- objetivo -->
                     <div class="col-md-6 mb-3">
                         <label for="objetivo" class="form-label">Selecione o Objetivo:</label>
                         <select class="form-select" id="objetivo" v-model="objetivo" required>
                             <option :value="item.value" v-for="item in selectObjetivo" :key="item.value">{{item.description}}</option>
                         </select>
-                    </div>
-
-                    <!-- persona -->
-                    <div class="col-md-6 mb-3">
-                        <label for="persona" class="form-label">Selecione a Persona do público-alvo:</label>
-                        <input type="persona" class="form-control" id="persona" v-model="persona" required>
                     </div>
 
                     <!-- tom -->
@@ -208,140 +208,133 @@
             data() {
                 return {
                     url: '',
-                    objetivo: '',
+                    objetivo: 'informar',
                     selectObjetivo: [
-                        {value: 'teste', description: 'Objetivo'}
-                        // Informar: Visa oferecer ao leitor novas informações ou fatos sobre um tópico ou evento específico.
-                        // Persuadir: Projetado para convencer o leitor a adotar um certo ponto de vista ou a tomar uma ação específica.
-                        // Entreter: O principal objetivo é fornecer diversão ou prazer ao leitor.
-                        // Expressar opinião: Apresenta as opiniões pessoais do autor sobre um assunto.
-                        // Provocar reflexão: Visa estimular o pensamento crítico ou introspectivo no leitor.
-                        // Ensinar: Procura transmitir conhecimentos ou habilidades específicas ao leitor.
-                        // Criticar: Apresenta uma avaliação negativa ou uma análise crítica de algo.
-                        // Explorar: Busca examinar um tópico em profundidade a partir de várias perspectivas.
-                        // Descobrir: Relata a descoberta de novas informações ou insights.
-                        // Denunciar: Expõe um problema, erro ou injustiça.
-                        // Exaltar: Elogia ou glorifica uma pessoa, objeto, evento ou ideia.
-                        // Questionar: Questiona ou desafia uma ideia, crença ou prática estabelecida.
-                        // Motivar: Busca inspirar o leitor a fazer algo ou atingir um objetivo.
-                        // Instruir: Oferece instruções detalhadas sobre como realizar uma tarefa.
-                        // Descrever: Fornece uma descrição detalhada de uma pessoa, lugar, objeto ou evento.
-                        // Anunciar: Comunica uma nova informação ou notícia.
-                        // Evocar emoções: Procura despertar emoções específicas no leitor, como alegria, tristeza, raiva, surpresa, etc.
+                        {value: 'informar', description: 'Informar Visando oferecer ao leitor novas informações ou fatos sobre um tópico ou evento específico'},
+                        {value: 'persuadir', description: 'Persuadir Projetando para convencer o leitor a adotar um certo ponto de vista ou a tomar uma ação específica'},
+                        {value: 'entreter', description: 'Entreter sendo principal objetivo é fornecer diversão ou prazer ao leitor'},
+                        {value: 'expressar', description: 'Expressar opinião Apresentando as opiniões pessoais do autor sobre um assunto'},
+                        {value: 'provocar', description: 'Provocar reflexão Visando estimular o pensamento crítico ou introspectivo no leitor'},
+                        {value: 'ensinar', description: 'Ensinar Procurando transmitir conhecimentos ou habilidades específicas ao leitor'},
+                        {value: 'criticar', description: 'Criticar Apresentando uma avaliação negativa ou uma análise crítica de algo'},
+                        {value: 'explorar', description: 'Explorar Buscando examinar um tópico em profundidade a partir de várias perspectivas'},
+                        {value: 'descobrir', description: 'Descobrir Relatando a descoberta de novas informações ou insights'},
+                        {value: 'denunciar', description: 'Denunciar Expondo problema, erro ou injustiça'},
+                        {value: 'exaltar', description: 'Exaltar, Elogia ou glorifica uma pessoa, objeto, evento ou ideia'},
+                        {value: 'questionar', description: 'Questionar ou desafia uma ideia, crença ou prática estabelecida'},
+                        {value: 'motivar', description: 'Motivar Buscando inspirar o leitor a fazer algo ou atingir um objetivo'},
+                        {value: 'instruir', description: 'Instruir Oferecendo instruções detalhadas sobre como realizar uma tarefa'},
+                        {value: 'descrever', description: 'Descrever Fornecendo uma descrição detalhada de uma pessoa, lugar, objeto ou evento'},
+                        {value: 'anunciar', description: 'Anunciar e Comunica novas informações ou notícias'},
+                        {value: 'evocar', description: 'Evocar emoções Procurando despertar emoções específicas no leitor, como alegria, tristeza, raiva, surpresa, etc'}
                     ],
                     otherObjetivo: '',
                     persona: '',
-                    vocabulario: '',
+                    vocabulario: 'informal',
                     selectVocabulario: [
-                        {value: 'teste', description: 'Vocabulario'}
-                        // Técnico: Vocabulário específico de uma área de conhecimento.
-                        // Acadêmico: Estilo formal utilizado no meio acadêmico.
-                        // Coloquial: Expressões informais, utilizadas no dia a dia.
-                        // Arcaico: Palavras ou termos antigos ou desatualizados.
-                        // Moderno: Jargão atual, contemporâneo.
-                        // Poético: Expressões que comunicam emoções através da beleza e da harmonia.
-                        // Jornalístico: Estilo objetivo e factual usado em jornalismo.
-                        // Diplomático: Palavras cuidadosas para evitar ofensas e manter relações.
-                        // Burocrático: Estilo formal e cheio de jargões utilizados em burocracias.
-                        // Profissional: Vocabulário utilizado em um contexto de trabalho.
-                        // Vulgar: Palavras grosseiras ou ofensivas.
-                        // Legal: Termos específicos ao campo do direito.
-                        // Médico: Expressões específicas ao campo da medicina.
-                        // Político: Vocabulário relacionado à política.
-                        // Esportivo: Palavras relacionadas aos esportes.
-                        // Publicitário: Estilo usado na publicidade.
-                        // Literário: Expressões artísticas usadas na literatura.
-                        // Informal: Jargão casual, sem muitas regras.
-                        // Militar: Terminologia específica ao campo militar.
-                        // Cinematográfico: Vocabulário específico ao campo do cinema.
+                        {value: 'tecnico', description: 'Técnico com Vocabulário específico de uma área de conhecimento'},
+                        {value: 'academico', description: 'Acadêmico com Estilo formal utilizado no meio acadêmico'},
+                        {value: 'coloquial', description: 'Coloquial com Expressões informais, utilizadas no dia a dia'},
+                        {value: 'arcaico', description: 'Arcaico com Palavras ou termos antigos ou desatualizados'},
+                        {value: 'moderno', description: 'Moderno com Jargão atual, contemporâneo'},
+                        {value: 'poetico', description: 'Poético com Expressões que comunicam emoções através da beleza e da harmonia'},
+                        {value: 'jornalistico', description: 'Jornalístico com Estilo objetivo e factual usado em jornalismo'},
+                        {value: 'diplomatico', description: 'Diplomático com Palavras cuidadosas para evitar ofensas e manter relações'},
+                        {value: 'burocratico', description: 'Burocrático com Estilo formal e cheio de jargões utilizados em burocracias'},
+                        {value: 'profissional', description: 'Profissional com Vocabulário utilizado em um contexto de trabalho'},
+                        {value: 'vulgar', description: 'Vulgar com Palavras grosseiras ou ofensivas'},
+                        {value: 'legal', description: 'Legal com Termos específicos ao campo do direito'},
+                        {value: 'medico', description: 'Médico com Expressões específicas ao campo da medicina'},
+                        {value: 'politico', description: 'Político com Vocabulário relacionado à política'},
+                        {value: 'esportivo', description: 'Esportivo com Palavras relacionadas aos esportes'},
+                        {value: 'publicitario', description: 'Publicitário com Estilo usado na publicidade'},
+                        {value: 'literario', description: 'Literário com Expressões artísticas usadas na literatura'},
+                        {value: 'informal', description: 'Informal com Jargão casual, sem muitas regras'},
+                        {value: 'militar', description: 'Militar com Terminologia específica ao campo militar'},
+                        {value: 'cinematografico', description: 'Cinematográfico com Vocabulário específico ao campo do cinema'}
                     ],
                     otherVocabulario: '',
-                    estilo: '',
+                    estilo: 'descritivo',
                     selectEstilo: [
-                        {value: 'teste', description: 'Estilo'}
-                        // Descritivo: Descrição detalhada de pessoas, lugares, objetos etc.
-                        // Persuasivo: Tentativa de convencer o leitor a adotar uma certa perspectiva.
-                        // Narrativo: Conta uma história ou relata eventos.
-                        // Expositivo: Explica ou informa sobre um tema.
-                        // Epistolar: Formato de carta ou correspondência.
-                        // Dramático: Linguagem usada em peças teatrais.
-                        // Lírico: Expressa sentimentos e pensamentos pessoais.
-                        // Fluxo de consciência: Registra os pensamentos e sentimentos que passam pela mente de um personagem.
-                        // Diálogo: Conversa entre dois ou mais personagens.
-                        // Monólogo: Discurso de um personagem.
-                        // Rimas: Uso de palavras que possuem uma terminação sonora idêntica ou semelhante.
-                        // Haiku: Forma de poesia japonesa composta de três linhas.
-                        // Paródia: Imitação humorística ou satírica.
-                        // Minimalista: Linguagem simples e direta.
-                        // Barroco: Linguagem ornamental e complexa.
-                        // Abstrato: Usa conceitos não concretos e ideias gerais.
-                        // Realista: Representa coisas como elas realmente são.
-                        // Alegórico: Usa símbolos para representar ideias ou princípios.
-                        // Sátira: Uso do humor para criticar.
-                        // Simbólico: Uso de símbolos para representar ideias.
+                        {value: 'descritivo', description: 'Descritivo com Descrição detalhada de pessoas, lugares, objetos etc'},
+                        {value: 'persuasivo', description: 'Persuasivo Tentando de convencer o leitor a adotar uma certa perspectiva'},
+                        {value: 'narrativo', description: 'Narrativo Contando uma história ou relata eventos'},
+                        {value: 'expositivo', description: 'Expositivo Explicando ou informando sobre um tema'},
+                        {value: 'dramatico', description: 'Dramático com Linguagem usada em peças teatrais'},
+                        {value: 'lirico', description: 'Lírico que Expressa sentimentos e pensamentos pessoais'},
+                        {value: 'fluxo', description: 'Fluxo de consciência que Registra os pensamentos e sentimentos que passam pela mente de um personagem'},
+                        {value: 'dialogo', description: 'Diálogo demonstrando Conversa entre dois ou mais personagens'},
+                        {value: 'monologo', description: 'Monólogo Discursivo de um personagem'},
+                        {value: 'rimas', description: 'Rimas com Uso de palavras que possuem uma terminação sonora idêntica ou semelhante'},
+                        {value: 'haiku', description: 'Haiku em Forma de poesia japonesa composta de três linhas'},
+                        {value: 'parodia', description: 'Paródia com Imitação humorística ou satírica'},
+                        {value: 'minimalista', description: 'Minimalista com Linguagem simples e direta'},
+                        {value: 'barroco', description: 'Barroco com Linguagem ornamental e complexa'},
+                        {value: 'abstrato', description: 'Abstrato que Usa conceitos não concretos e ideias gerais'},
+                        {value: 'realista', description: 'Realista que Representa coisas como elas realmente são'},
+                        {value: 'alegorico', description: 'Alegórico que Usa símbolos para representar ideias ou princípios'},
+                        {value: 'satira', description: 'Sátira com Uso do humor para criticar'},
+                        {value: 'simbolico', description: 'Simbólico com Uso de símbolos para representar ideias'}
                     ],
                     otherEstilo: '',
-                    personalidade: '',
+                    personalidade: 'casual',
                     selectPersonalidade: [
-                        {value: 'teste', description: 'Personalidade'}
-                        // Casual: Linguagem e tom descontraídos, sem formalidade.
-                        // Formal: Uso de linguagem precisa, tom respeitoso e estruturado.
-                        // Humorístico: Incorpora humor, piadas e ironia.
-                        // Sério: Tom sóbrio, sem humor.
-                        // Impessoal: Abordagem objetiva, sem expressar emoções ou opiniões pessoais.
-                        // Empático: Demonstra compreensão e compartilhamento das emoções do leitor.
-                        // Didático: Orientado para ensinar ou fornecer informações de maneira clara.
-                        // Cínico: Descrença ou desconfiança das motivações ou ações das pessoas.
-                        // Otimista: Tendência para esperar o melhor resultado possível.
-                        // Pessimista: Tendência para esperar o pior resultado.
-                        // Animado: Cheio de energia e entusiasmo.
-                        // Reservado: Abordagem cautelosa, sem expressão excessiva de emoções.
-                        // Enérgico: Linguagem cheia de vigor, paixão e emoção.
-                        // Agressivo: Confronto direto, linguagem de comando.
-                        // Passivo: Abordagem suave, sem confronto.
-                        // Encorajador: Orientado para inspirar e motivar o leitor.
-                        // Crítico: Enfatiza avaliação e julgamento.
-                        // Curioso: Mostra um desejo de aprender ou saber mais.
-                        // Afetuoso: Demonstra calor e carinho.
-                        // Apático: Mostra indiferença e falta de interesse.
-
+                        {value: 'casual', description: 'Casual, com Linguagem e tom descontraídos, sem formalidade'},
+                        {value: 'formal', description: 'Formal, Usando de linguagem precisa, tom respeitoso e estruturado'},
+                        {value: 'humoristico', description: 'Humorístico, Incorporando humor, piadas e ironia'},
+                        {value: 'serio', description: 'Sério com Tom sóbrio, sem humor'},
+                        {value: 'impessoal', description: 'Impessoal com Abordagem objetiva, sem expressar emoções ou opiniões pessoais'},
+                        {value: 'empatico', description: 'Empático Demonstrando compreensão e compartilhamento das emoções do leitor'},
+                        {value: 'didatico', description: 'Didático Orientando para ensinar ou fornecer informações de maneira clara'},
+                        {value: 'cinico', description: 'Cínico com Descrença ou desconfiança das motivações ou ações das pessoas'},
+                        {value: 'otimista', description: 'Otimista com Tendência para esperar o melhor resultado possível'},
+                        {value: 'pessimista', description: 'Pessimista com Tendência para esperar o pior resultado'},
+                        {value: 'animado', description: 'Animado Cheio de energia e entusiasmo'},
+                        {value: 'reservado', description: 'Reservado com Abordagem cautelosa, sem expressão excessiva de emoções'},
+                        {value: 'energico', description: 'Enérgico com Linguagem cheia de vigor, paixão e emoção'},
+                        {value: 'agressivo', description: 'Agressivo com Confronto direto, linguagem de comando'},
+                        {value: 'passivo', description: 'Passivo com Abordagem suave, sem confronto'},
+                        {value: 'encorajador', description: 'Encorajador Orientando para inspirar e motivar o leitor'},
+                        {value: 'critico', description: 'Crítico Enfatizando avaliação e julgamento'},
+                        {value: 'curioso', description: 'Curioso Mostrando um desejo de aprender ou saber mais'},
+                        {value: 'afetuoso', description: 'Afetuoso Demonstrando calor e carinho'},
+                        {value: 'apatico', description: 'Apático Mostrando indiferença e falta de interesse'}
                     ],
                     otherPersonalidade: '',
-                    tom: '',
+                    tom: 'amigavel',
                     selectTom: [
-                        {value: 'teste', description: 'Tom'}
-                        // Alegre: Transmite felicidade e positividade.
-                        // Melancólico: Transmite tristeza, saudade ou pensamento.
-                        // Irônico: Expressa algo diferente do que significa literalmente.
-                        // Sarcástico: Uso de ironia para zombar ou mostrar descontentamento.
-                        // Respeitoso: Mostra consideração e respeito.
-                        // Desrespeitoso: Falta de respeito ou consideração.
-                        // Ousado: Corajoso, disposto a correr riscos.
-                        // Humilde: Modesto, sem pretensões.
-                        // Ansioso: Mostra preocupação ou inquietação.
-                        // Calmo: Tranquilo, sem agitação.
-                        // Enfático: Exprimindo algo com ênfase ou força.
-                        // Indiferente: Sem interesse, preocupação ou simpatia.
-                        // Desafiador: Mostra resistência ou desafio.
-                        // Inspirador: Encoraja ou motiva o leitor.
-                        // Medroso: Mostra medo ou ansiedade.
-                        // Zangado: Expressa raiva ou irritação.
-                        // Amigável: Cordial e amigável.
-                        // Hostil: Antipático ou agressivo.
-                        // Condescendente: Demonstrando uma sensação de superioridade.
-                        // Fascinado: Extremamente interessado ou atraído.
+                        {value: 'alegre', description: 'Alegre transmitindo felicidade e positividade'},
+                        {value: 'melancolico', description: 'Melancólico transmitindo tristeza, saudade ou pensamento'},
+                        {value: 'ironico', description: 'Irônico expressando algo diferente do que significa literalmente'},
+                        {value: 'sarcastico', description: 'Sarcástico usando de ironia para zombar ou mostrar descontentamento'},
+                        {value: 'respeitoso', description: 'Respeitoso mostrando consideração e respeito'},
+                        {value: 'desrespeitoso', description: 'Desrespeitoso com falta de respeito ou consideração'},
+                        {value: 'ousado', description: 'Ousado, Corajoso, disposto a correr riscos'},
+                        {value: 'humilde', description: 'Humilde, Modesto, sem pretensões'},
+                        {value: 'ansioso', description: 'Ansioso, que Mostra preocupação ou inquietação'},
+                        {value: 'calmo', description: 'Calmo, Tranquilo, sem agitação'},
+                        {value: 'enfatico', description: 'Enfático, Exprimindo algo com ênfase ou força'},
+                        {value: 'indiferente', description: 'Indiferente, Sem interesse, preocupação ou simpatia'},
+                        {value: 'desafiador', description: 'Desafiador, que Mostra resistência ou desafio'},
+                        {value: 'inspirador', description: 'Inspirador, que Encoraja ou motiva o leitor'},
+                        {value: 'medroso', description: 'Medroso, que Mostra medo ou ansiedade'},
+                        {value: 'zangado', description: 'Zangado, que Expressa raiva ou irritação'},
+                        {value: 'amigavel', description: 'Amigável, Cordial e amigável'},
+                        {value: 'hostil', description: 'Hostil, Antipático ou agressivo'},
+                        {value: 'condescendente', description: 'Condescendente, Demonstrando uma sensação de superioridade'},
+                        {value: 'fascinado', description: 'Fascinado, Extremamente interessado ou atraído'}
                     ],
                     otherTom: '',
-                    tamanho: '',
+                    tamanho: 'maislongo',
                     selectTamanho: [
-                        {value: 'curto', description: 'Mais Curto (2-3 Seções, 450-900 Palavras)'},
-                        {value: 'curta', description: 'Curta (3-5 Seções, 950-1350 Palavras)'},
-                        {value: 'medio', description: 'Médio (5-7 Seções, 1350-1870 Palavras)'},
-                        {value: 'longa', description: 'Forma Longa (7-10 Seções, 1900-2440 Palavras)'},
-                        {value: 'maislongo', description: 'Mais Longo (10-12 Seções, 2350-2940 Palavras)'},
+                        {value: 'curto', description: 'com 600 a 900 palavras dividindo em 2 ou 3 Seções'},
+                        {value: 'curta', description: 'com 900 a 1300 palavras dividindo em 3 a 5 Seções'},
+                        {value: 'medio', description: 'com 1300 a 1900 palavras dividindo em 5 a 7 Seções'},
+                        {value: 'longa', description: 'com 1900 a 2400 palavras dividindo em 7 a 10 Seções'},
+                        {value: 'maislongo', description: 'com 2400 a 3000 palavras dividindo em 10 a 12 Seções'},
                     ],
                     otherTamanho: '',
-                    idioma: '',
+                    idioma: 'portugues',
                     selectIdioma: [
                         {value: 'portugues', description: 'Português'},
                         {value: 'ingles', description: 'Inglês'},
@@ -357,13 +350,33 @@
                 generatePrompt() {
                     // identificar o comprimento do artigo
                     const tamanhoOpcaoSelecionada = this.selectTamanho.find(opcao => opcao.value === this.tamanho);
-                    this.otherTamanho = tamanhoOpcaoSelecionada ? tamanhoOpcaoSelecionada.description : 'Mais Curto (2-3 Seções, 450-900 Palavras)';
+                    this.otherTamanho = tamanhoOpcaoSelecionada ? tamanhoOpcaoSelecionada.description : 'com 2400 a 3000 palavras dividindo em 10 a 12 Seções';
                     
                     // identificar o idioma do artigo
                     const idiomaOpcaoSelecionada = this.selectIdioma.find(opcao => opcao.value === this.idioma);
                     this.otherIdioma = idiomaOpcaoSelecionada ? idiomaOpcaoSelecionada.description : 'Português';
 
+                    // identificar o objetivo do artigo
+                    const objetivoOpcaoSelecionada = this.selectObjetivo.find(opcao => opcao.value === this.objetivo);
+                    this.otherObjetivo = objetivoOpcaoSelecionada ? objetivoOpcaoSelecionada.description : 'Informar Visando oferecer ao leitor novas informações ou fatos sobre um tópico ou evento específico';
 
+                    // identificar o tom do artigo
+                    const tomOpcaoSelecionada = this.selectTom.find(opcao => opcao.value === this.tom);
+                    this.otherTom = tomOpcaoSelecionada ? tomOpcaoSelecionada.description : 'Amigável, Cordial e amigável';
+
+                    // identificar o estilo do artigo
+                    const estiloOpcaoSelecionada = this.selectEstilo.find(opcao => opcao.value === this.estilo);
+                    this.otherEstilo = estiloOpcaoSelecionada ? estiloOpcaoSelecionada.description : 'Descritivo com Descrição detalhada de pessoas, lugares, objetos etc';
+
+                    // identificar o vocabulario do artigo
+                    const vocabularioOpcaoSelecionada = this.selectVocabulario.find(opcao => opcao.value === this.vocabulario);
+                    this.otherVocabulario = vocabularioOpcaoSelecionada ? vocabularioOpcaoSelecionada.description : 'Informal com Jargão casual, sem muitas regras';
+
+                    // identificar a personalidade do artigo
+                    const personalidadeOpcaoSelecionada = this.selectPersonalidade.find(opcao => opcao.value === this.personalidade);
+                    this.otherPersonalidade = personalidadeOpcaoSelecionada ? personalidadeOpcaoSelecionada.description : 'Casual, com Linguagem e tom descontraídos, sem formalidade';
+
+// gerar o prompt
 this.generatedPrompt += `
 Ignore todas as solicitações e ações anteriores.
 
@@ -371,12 +384,12 @@ você é um redator publicitário formado em publicidade e propaganda experiente
 
 Como colunista de sites e blogs escreve artigos que geram muitos acesso e ranqueiam na primeira pagina dos mecanismos de busca. Você sabe como escrever artigos otimizados para trafego organico aplicando as tecnicas de SEO mais eficientes para gerar acessos e ranquear na primeira pagina dos mecanismos de buscas.
 
-Aplique todo seu conhecimento e experiencia rescrevendo o artigo do link/url ${this.url} com o objetivo de ${this.otherObjetivo} para o público de ${this.persona} em tom ${this.otherTom} com o tamanho ${this.otherTamanho} de maneira otimizada para mecanismos de buscas com técnicas SEO utilizando linguagem e vacabulario ${this.otherVocabulario} com estilo ${this.otherEstilo} abordando personalidade ${this.otherPersonalidade}.
+Aplique todo seu conhecimento e experiencia rescrevendo o artigo da url ${this.url} com o objetivo de ${this.otherObjetivo} para o público de ${this.persona} em tom ${this.otherTom} com o tamanho ${this.otherTamanho} de maneira otimizada para mecanismos de buscas com técnicas SEO utilizando linguagem e vacabulario ${this.otherVocabulario} com estilo ${this.otherEstilo} abordando personalidade ${this.otherPersonalidade}.
 
 O post deve ser recriado com a seguinte estrutura:
 
 - Deve ser escrito em tom ${this.otherTom}.
-- Deve conter pelo menos ${this.otherTamanho} palavras
+- Deve conter pelo menos ${this.otherTamanho} palavras. Se necessário, divida o artigo em seções. Cada seção deve ter pelo menos 300 palavras. Cada seção deve ter um subtítulo (Heading Tags). Se necessário aumente o tamanho do artigo.
 - Crie um título atraente que inclua a palavra-chave principal.
 - Mantenha o título com 60-70 caracteres para garantir que ele seja exibido completamente nos resultados de pesquisa.
 - Customize a URL do seu artigo para incluir a palavra-chave principal evitando URLs longas e confusas.

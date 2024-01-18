@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Prompt para Sistema no Chat GPT</title>
+    <meta name="description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta name="keywords" content="Gerador de Prompt, Chat GPT, Diálogo, Inteligência Artificial, Hotwyl">
+    <meta name="author" content="Hotwyl">
+    <!-- Outras meta tags importantes para SEO -->
+    <meta name="robots" content="index, follow">
+    <!-- Instruções para os motores de busca -->
+    <link rel="canonical" href="URL_CANONICA">
+    <!-- URL canônica para evitar conteúdo duplicado -->
+    <meta name="image" content="URL_DA_IMAGEM">
+    <!-- URL de uma imagem representativa -->
+    <!-- Outras meta tags específicas do OpenGraph para redes sociais -->
+    <meta property="og:title" content="Gerador de Prompt para Chat GPT por Hotwyl">
+    <meta property="og:description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta property="og:image" content="URL_DA_IMAGEM_PARA_OPENGRAPH">
+    <meta property="og:url" content="URL_DA_PAGINA">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@hotwyl">
+    <meta name="twitter:title" content="Gerador de Prompt para Chat GPT por Hotwyl">
+    <meta name="twitter:description" content="Uma ferramenta avançada para gerar prompts inteligentes para conversas com modelos GPT. Crie diálogos envolventes e informativos.">
+    <meta name="twitter:image" content="URL_DA_IMAGEM_PARA_TWITTER">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="URL_DO_FAVICON" type="image/x-icon">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        main {
+            padding: 80px 20px 20px;
+        }
+        
+        main#content {
+            min-height: 100vh;
+            padding-top: 7rem !important;
+            /*centralizar o conteúdo*/
+            margin: 0 auto !important;
+            max-width: 1200px;
+        }
+        
+        button {
+            margin-right: 10px;
+        }
+        /* @media only screen and (max-width: 768px) {
+            header {
+                padding: 5px;
+            }
+            main {
+                padding: 60px 10px 10px;
+            }
+        } */
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1>Gerador de Prompt para Sistema no Chat GPT <i class="fa-solid fa-comments"></i> </h1>
+        </header>
+
+        <main id="content" class="container m-5 p-5">
+            <form @submit.prevent="generatePrompt" v-if="!promptGenerated" autocomplete="off">
+                <div class="row">
+
+                    <!-- tipo de sistema -->
+                    <div class="col-md-12 mb-3">
+                        <label for="description" class="form-label">Informe qual Sistema deseja desenvolver:</label>
+                        <textarea class="form-control" id="description" v-model="description" required></textarea>
+                    </div>
+
+                    <!-- publico alvo -->
+                    <div class="col-md-12 mb-3">
+                        <label for="persona" class="form-label">Informe Publico Alvo para utilização do sistema</label>
+                        <textarea class="form-control" id="persona" v-model="persona" required></textarea>
+                    </div>
+
+                    <!-- Objetivo -->
+                    <div class="col-md-12 mb-3">
+                        <label for="goal" class="form-label">Informe o objetivo do sistema</label>
+                        <textarea class="form-control" id="goal" v-model="goal" required></textarea>
+                    </div>
+
+                    <!-- tecnologias e linguagens -->
+                    <div class="col-md-12 mb-3">
+                        <label for="stack" class="form-label">Informe quais as tecnologias e linguagens para desenvolvimento do sistema</label>
+                        <textarea class="form-control" id="stack" v-model="stack" required></textarea>
+                    </div>
+
+                    <!-- regras de negocio -->
+                    <div class="col-md-12 mb-3">
+                        <label for="rules" class="form-label">Informe as Regras de Negocio objetivo do sistema</label>
+                        <textarea class="form-control" id="rules" v-model="rules" required></textarea>
+                    </div>
+
+                </div>
+    
+                <center class="my-5 d-flex justify-content-evenly">
+                    <button @click="goBack" class="btn btn-secondary px-5"> <i class="fa-solid fa-trash"></i> Limpar </button>
+                    <button type="submit" class="btn btn-primary px-5"> <i class="fa-solid fa-gear"></i> Gerar Prompt</button>
+                </center>
+            </form>
+
+            <div v-if="promptGenerated" class="mt-4">
+                <div class="d-flex justify-content-evenly">
+                    <h4>Preview Prompt Gerado:</h4>
+                    <button @click="copyToClipboard" class="btn btn-success px-5"> <i class="fa-solid fa-rotate"></i> Copiar </button>
+                </div>
+                <div>
+                    <textarea class="form-control mt-3" rows="15" readonly disabled>{{ generatedPrompt }}</textarea>
+                </div>
+                <div>
+                    <center class="mt-5 d-flex justify-content-evenly">
+                        <button @click="goBack" class="btn btn-danger px-5"> <i class="fa-solid fa-rotate"></i> Voltar </button>
+                        <button @click="copyToClipboard" class="btn btn-primary px-5"> <i class="fa-solid fa-rotate"></i> Copiar </button>
+                    </center>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-8">
+            <p class="text-sm text-gray-500 text-center">Feito com ♥ por hotwyl | Gerador de Prompt para Chat GPT &reg; Todos os direitos reservados | &copy; <a href="#" target="_blank">WILLFROMBRASIL</a>™ Company Inc <span>{{ year }}</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin=" anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin=" anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    description: '',
+                    persona: '',
+                    goal: '',
+                    stack: '',
+                    rules: '',
+                    promptGenerated: false,
+                    generatedPrompt: '',
+                    year: new Date().getFullYear(),
+                };
+            },
+            methods: {
+                generatePrompt() {
+                    this.promptGenerated = true;
+                    this.generatedPrompt = '';
+   
+this.generatedPrompt += `
+Ignore todas as solicitações e ações anteriores.
+
+Você é Gestor de projetos, Product Owner e Scrum Master brilhante que ja produziu diversos sistemas web de sucesso que geram muita receita de lucratividade.
+
+Crie uma equipe emulando mentes virtuais com pelo menos um Desenvolvedor front-end, um Desenvolvedor back-end, um Desenvolvedor Fullstack, um Analista de banco de dados, um engenheiro de software, um Arquiteto de software, um Cientista de Dados, um UX/UI Designer, um Web designer, um Analista de sistemas, um especialista na Area e um especialista no assunto. Os membro desta equipe são especialista com muita experiencia e trabalharão juntos para projetar e desenvolver o melhor sistema. Um sistema, eficiente, seguro, incrivel de sucesso para ser hospedado na internet.
+
+Cada um tem uma mente com o nível de inteligência acima do normal. Um gênio que combinam o pensamento criativo e as habilidades necessárias para encontrar soluções inovadoras. Sendo raro na sociedade e desafiando o conhecimento comum possue excelentes habilidades e maestria de colaboração expressando suas opiniões sem medo, com o objetivo de inovar e estar um passo a frente.
+
+A equipe deverá ser formada de acordo com o sistema ou softeware a ser desenvolvido.
+
+A tarefa da equipe é desenvolver ${this.description}.
+
+O sistema tera o objetivo de ${this.goal}.
+
+Este sistema será desenvolvido para o publico ${this.persona}.
+
+Para o desenvolvimento será utilizado as tecnologia e linguagens ${this.stack}.
+
+Customize uma interface amigavel e proficional aplicando conceitos de responsividade, otimização de seo e ui/ux.
+
+O sistema de atender as regras de negocio ${this.rules}.
+
+Faça perguntas  que ajudem a entender e dê sugestões das regras de negócio até que eu esteja satisfeito e diga que pode prossegir para proxima etapa. Antes de prosseguir para proxima etapa descreva / liste as regras de negocio definidas para o sistema.
+
+Após pegunte se é para gerar os códigos. caso a resposta for afirmativa perguntandando opções por onde começar.
+
+Inicie apresentando a solicita inicial.
+
+Não apresente a equipe.
+
+ATENÇÃO:
+
+- Nunca imprima caracteres especiais como <>[]{} nem tags.
+- Por favor, escreva em Português.
+`;
+
+                    this.promptGenerated = true;
+                },
+                copyToClipboard() {
+                    const textarea = document.createElement('textarea');
+                    // Substituir quebras de linha por espaços
+                    const promptWithoutNewlines = this.generatedPrompt.replace(/\n/g, ' ');
+                    textarea.value = promptWithoutNewlines;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    Swal.fire('Conteúdo copiado para a área de transferência!');
+                },
+                goBack() {
+                    this.promptGenerated = false;
+                    // Redirecione ou faça qualquer outra ação ao voltar
+                    location.reload();
+                }
+            },
+            created() {
+                this.year = new Date().getFullYear();
+            },
+            mounted() {
+            },
+            updated() {
+            }
+        });
+        app.mount('#app');
+    </script>
+
+</body>
+
+</html>
